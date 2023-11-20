@@ -28,6 +28,13 @@
             .mb-2 {
                 margin-bottom: 0.5rem;
             }
+            .source-link { 
+                color: rgb(170,170,170);
+                text-decoration: none;
+            }
+            .source-link:hover { 
+                color: #ffffff;                
+            }
         </style>
     </head>
     <body>
@@ -37,7 +44,8 @@
 
         <div class="mb-2">
             <canvas id="canvas"></canvas>
-        </div>       
+        </div>    
+        <a class="source-link" href="https://github.com/fiztech-code/js-games/blob/main/js_snake/script.js">Source Code</a>                
         <script>
             const canvas = document.querySelector('#canvas');
             const ctx = canvas.getContext('2d');
