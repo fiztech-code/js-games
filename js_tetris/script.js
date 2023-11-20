@@ -1,10 +1,17 @@
 const canvas = document.querySelector('#canvas');
 const ctx = canvas.getContext('2d');
 
-const width = 500;
-const height = 900;
-const offset = 50;
-const block = 40;
+let padding = document.querySelector('nav').offsetHeight;
+padding += document.querySelector('.title').offsetHeight;
+padding += document.querySelector('.description').offsetHeight;
+padding += document.querySelector('.source-link').offsetHeight;
+
+let maxCanvasHeight = window.outerHeight - padding - 100;
+
+const height = maxCanvasHeight - (maxCanvasHeight % 90); //900;
+const width = height / 1.8; //500;
+const offset = height / 18; //50;
+const block = height / 22.5; //40;
 
 ctx.canvas.width = width;
 ctx.canvas.height = height;
@@ -99,11 +106,11 @@ function draw(time) {
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
    
     ctx.beginPath();
-    ctx.strokeStyle = 'white';
-    ctx.moveTo(50, 50);
-    ctx.lineTo(50, 850);
-    ctx.lineTo(450, 850);
-    ctx.lineTo(450, 50);
+    ctx.strokeStyle = 'white';    
+    ctx.moveTo(offset, offset);    
+    ctx.lineTo(offset, height-offset);    
+    ctx.lineTo(width-offset, height-offset);    
+    ctx.lineTo(width-offset, offset);
     ctx.stroke();    
   
     shape.draw();
@@ -123,17 +130,17 @@ function draw(time) {
         }
     }
 
-    ctx.strokeStyle = '#333';
-    for (let j = 50; j <= 810; j+=40) {
-        ctx.beginPath();        
-        ctx.moveTo(50, j);
-        ctx.lineTo(450, j);
+    ctx.strokeStyle = '#333';    
+    for (let j = offset; j <= (height-offset-block); j+=block) {
+        ctx.beginPath();               
+        ctx.moveTo(offset, j);
+        ctx.lineTo(width-offset, j);
         ctx.stroke();    
-    }
-    for (let j = 90; j <= 450; j+=40) {
-        ctx.beginPath();
-        ctx.moveTo(j, 50);
-        ctx.lineTo(j, 850);
+    }    
+    for (let j = (offset + block); j <= (width-offset); j+=block) {
+        ctx.beginPath();        
+        ctx.moveTo(j, offset);
+        ctx.lineTo(j, height-offset);
         ctx.stroke();    
     }
 
