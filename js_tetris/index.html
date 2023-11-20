@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head> 
+        <style>
+            @import url('https://fonts.cdnfonts.com/css/roboto');
+        </style>
+        <style>
+            body {
+                font-family: Roboto, 'Courier New', Courier, monospace;
+                color: #ffffff;
+                background-color: rgb(37,37,38);
+            }
+            body {
+                margin: 0;
+                text-align: center;
+            }
+            nav {
+                height: 4rem;
+            }
+            .title, .description {                
+                text-align: center;
+                margin: 0;
+            }
+            .description {
+                color: rgb(170,170,170);
+                font-family: 'Roboto Thin';
+                margin-bottom: 1rem;
+            }
+            .mb-2 {
+                margin-bottom: 0.5rem;
+            }
+        </style>  
+    </head>
+    <body>
+        <nav></nav>
+        <h1 class="title">Tetris</h1>        
+        <h4 class="description">Use arrow keys and space bar</h4>
+        <div class="mb-2">
+            <canvas id="canvas"></canvas>
+        </div>     
+        <script src="shape.js"></script>
+        <script src="script.js"></script>
+    </body>
+</html>

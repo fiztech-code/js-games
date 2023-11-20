@@ -1,9 +1,90 @@
 <!DOCTYPE html>
 <html>
     <head>
-
+        <style>
+            @import url('https://fonts.cdnfonts.com/css/roboto');
+        </style>
+        <style>
+            body {
+                font-family: Roboto, 'Courier New', Courier, monospace;
+                color: #ffffff;
+                background-color: rgb(37,37,38);
+            }
+            nav {
+                height: 4rem;
+            }
+            .title, .description {                
+                text-align: center;
+                margin: 0;
+            }
+            .description {
+                color: rgb(170,170,170);
+                font-family: 'Roboto Thin';
+            }
+            .card-deck {
+                width: 64rem;
+                margin: 2rem auto;
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                grid-gap: 2rem;
+            }
+            .card-deck a {
+                box-sizing: border-box;
+                text-decoration: none;
+                border: 1px solid rgb(65,65,65);
+                border-radius: .5rem;
+                width: 20rem;
+                height: 12rem;
+                padding: 1rem;
+                overflow: hidden;
+                text-align: center;
+            }  
+            .card-deck a:hover {
+                border-color: rgb(170,170,170);;
+            } 
+            .card-deck a:hover h4 {                
+                color: #ffffff;
+            }
+            .card-deck a img {
+                max-width: 100%;
+                max-height: 9rem;
+            }
+            .card-deck a h4 {
+                color: rgb(170,170,170);
+                font-family: 'Roboto Thin';
+                margin: 0;
+            }
+        </style>
     </head>
     <body>
-        <a href="/js_snake/index.html">Snake</a>
+        <nav></nav>
+        <h1 class="title">Games</h1>
+        <h4 class="description">Collection of simple games created in vanilla JavaScript</h4>
+         
+        <div class="container">
+            <div class="card-deck">
+                <a href="js_snake/index.html">
+                    <img src="img/snake.png" />
+                    <h4>Snake</h4>                    
+                </a>
+                <a href="js_pong/index.html">
+                    <img src="img/pong.png" />
+                    <h4>Pong</h4>                    
+                </a>
+                <a href="js_flappybird/index.html">
+                    <img src="img/flappybird.png" />
+                    <h4>FlappyBird</h4>                    
+                </a>
+                <a href="js_tetris/index.html">
+                    <img src="img/tetris.png" />
+                    <h4>Tetris</h4>                    
+                </a>
+                <a href="js_asteroids/index.html">
+                    <img src="img/asteroid.png" />
+                    <h4>Asteroids</h4>                    
+                </a>    
+            </div>
+        </div>
+        
     </body>
 </html>
