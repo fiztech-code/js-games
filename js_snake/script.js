@@ -1,6 +1,6 @@
 const canvas = document.querySelector('#canvas');
 const ctx = canvas.getContext('2d');
-const screen = 750;
+const screen = 600;
 const block = screen / 20
 ctx.canvas.height = screen;
 ctx.canvas.width = screen;
@@ -26,8 +26,13 @@ function draw() {
         ctx.fillRect(s[0]*block, s[1]*block, block, block);
     });
 
+    //ctx.fillStyle = 'red';
+    ctx.beginPath();
+    ctx.strokeStyle = 'red';
+    ctx.arc(apple[0]*block+(block/2), apple[1]*block+(block/2), block/2, 0, 360);    
     ctx.fillStyle = 'red';
-    ctx.fillRect(apple[0]*block, apple[1]*block, block, block);    
+    ctx.fill();
+    ctx.stroke();
 }
 
 function game() {
@@ -98,7 +103,7 @@ function keyAction(event) {
 
 document.addEventListener('keydown', keyAction);
 
-let clock = setInterval(game, 100);
+let clock = setInterval(game, 200);
 let isRunning = true;
 makeApple();
 
