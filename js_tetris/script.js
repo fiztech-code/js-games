@@ -6,7 +6,11 @@ padding += document.querySelector('.title').offsetHeight;
 padding += document.querySelector('.description').offsetHeight;
 padding += document.querySelector('.source-link').offsetHeight;
 
-let maxCanvasHeight = window.outerHeight - padding - 100;
+const body = document.body;
+const html = document.documentElement;
+
+let maxCanvasHeight = Math.max(body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight) - padding;
 
 const height = maxCanvasHeight - (maxCanvasHeight % 90); //900;
 const width = height / 1.8; //500;
