@@ -78,11 +78,11 @@ function draw() {
     }
 
     // message
+    message = winner != undefined ? (winner == p1 ? 'You win!' : 'You lose') : (isPlayerMove ? 'Your turn' : 'Computer turn');
     ctx.save();    
-    ctx.translate(ctx.canvas.width / 2 - 30, ctx.canvas.height - 10);
+    ctx.translate(ctx.canvas.width / 2 - (message.length * 3), ctx.canvas.height - 10);
     ctx.font = '1rem sans-serif';
-    ctx.fillStyle = 'black';
-    message = winner != undefined ? (winner == p1 ? 'You win!' : 'You lose') : 'Your turn';
+    ctx.fillStyle = 'black';    
     ctx.fillText(message, 0, 0);
     ctx.restore();
     
