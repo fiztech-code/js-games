@@ -12,10 +12,8 @@ let winner;
 let message = '';
 
 // #region - get card graphics from unicode chars
-let suits = ['Spades','Hearts','Diamonds','Clubs'];
 /*
     0xD83C 0xDCA0 - Playing Card Back
-
     0xD83C 0xDCA1 - Spades
     0xD83C 0xDCB1 - Hearts
     0xD83C 0xDCC1 - Diamonds
@@ -26,14 +24,14 @@ for (let i = 0; i < 36; i++) {
     let card = {
         img: entity,
         suit: Math.floor(i / 9),
-        value: (i % 9) + 5        
+        value: (i % 9) + 5
     };
     
     if ((entity & 0xF) == 0x1) {
         card.value += 9; // set ACE value to 14
-        entity += 5; // skip 2-5    
+        entity += 5; // skip 2-5
     } else if ((entity & 0xF) == 0xB) {
-        entity += 2; // skip knight    
+        entity += 2; // skip knight
     } else if ((entity & 0xF) == 0xE) {
         entity += 3; // skip to next suit
     } else {
@@ -241,23 +239,23 @@ canvas.addEventListener('mouseup', (event) => {
     }
 
 
-    if (isPlayerTurn && isPointInRectangle(x, y, btnPass)) {
-        isPlayerTurn = false;
-        isPlayerMove = false;        
+    if (isPlayerTurn && isPointInRectangle(x, y, btnPass)) {        
         discardCards();
         dealCards(p1, p2);
+        isPlayerTurn = false;
+        isPlayerMove = false;
     }
 
-    if (!isPlayerTurn && isPointInRectangle(x, y, btnTake)) {    
-        isPlayerTurn = false;
-        isPlayerMove = false;    
+    if (!isPlayerTurn && isPointInRectangle(x, y, btnTake)) {            
         takeCards(p1);
         dealCards(p2, p1);
+        isPlayerTurn = false;
+        isPlayerMove = false;
     } 
     
 
-    computerMove();
     draw();
+    computerMove();    
 });
 // #endregion
 
@@ -265,46 +263,34 @@ canvas.addEventListener('mouseup', (event) => {
 function checkWinner() {     
     if (!deck.length && (!p1.length || !p2.length)) {
         winner = !p2.length ? p2 : p1;
-        console.log('Check winner', (winner == p1 ? 'human' : 'pc'));  
         return true;
     } 
     return false;
 }
 
 function discardCards() {
-    console.log('Discard cards', table.length);
-    while(table.length) {
-        discard.push(table[0]);
-        table.splice(0,1);
-    };
+    takeCards(discard);
 }
 
 function takeCards(player) {
-    console.log('Take cards', (player == p1 ? 'human' : 'pc'));
     while(table.length) {
         player.push(table[0]);
         table.splice(0,1);
     };
 }
 
-function dealCards(attacker, deferender) {  
-    let i = 0, j = 0;
+function dealCards(attacker, deferender) {      
     while ((attacker.length < 6 || deferender.length < 6) && deck.length) {
         if (attacker.length < 6) {
-            attacker.push(...deck.splice(0,1));
-            i++;
+            attacker.push(...deck.splice(0,1));            
         }
         if (deferender.length < 6) {
-            deferender.push(...deck.splice(0,1));
-            j++;
+            deferender.push(...deck.splice(0,1));            
         }
-    }   
-    
-    console.log('Deal Cards: ', (attacker == p1 ? `Human: ${i} cards,` : `Pc: ${j} cards,`), (deferender == p1 ? `Human: ${i} cards` : `Pc: ${j} cards`));
+    }
 }
 
-function isCardBigger(attack, defend) {
-    console.log('isCardBigger', suits[attack.suit], attack.value, suits[defend.suit], defend.value);
+function isCardBigger(attack, defend) {    
     if (attack.suit == defend.suit) {
         return defend.value > attack.value;
     } else if (attack.suit != trump.suit && defend.suit == trump.suit) {
@@ -313,8 +299,8 @@ function isCardBigger(attack, defend) {
     return false;
 }
 
-
-function computerMove() {       
+async function computerMove() {
+    await new Promise(r => setTimeout(r, 800));  
     let i;
 
     if (checkWinner() || isPlayerMove) {
@@ -324,7 +310,6 @@ function computerMove() {
 
     if (!isPlayerTurn) { // attack & toss
         // attack Alorithm
-        
         let canToss = p2.filter((x) => {
             if (!table.length) return true;
             return table.map((y) => y.value).indexOf(x.value) > -1;
@@ -341,14 +326,14 @@ function computerMove() {
             i = p2.indexOf(canToss[0]);
         }
 
-        if (i > -1) {        
+        if (i > -1) {
             table.push(...p2.splice(i, 1));
             isPlayerMove = true;
-        } else {
-            isPlayerTurn = true;
-            isPlayerMove = true;
+        } else {            
             discardCards();
             dealCards(p2, p1);
+            isPlayerTurn = true;
+            isPlayerMove = true;
         }
     } else if (isPlayerTurn)  { // defend
         // defend Alorithm
@@ -368,10 +353,10 @@ function computerMove() {
             table.push(...p2.splice(i, 1));
             isPlayerMove = true;
         } else {
-            isPlayerTurn = true;
-            isPlayerMove = true;   
             takeCards(p2);
             dealCards(p1, p2);
+            isPlayerTurn = true;
+            isPlayerMove = true;
         }
     }
 
@@ -380,7 +365,7 @@ function computerMove() {
 
 
 (function() {    
-    deck = deck.sort(() => 0.5 - Math.random()); // shuffle deck    
+    deck = deck.sort(() => 0.5 - Math.random()); // shuffle deck
     dealCards(p1, p2);
     
     trump = deck[0];
@@ -393,11 +378,9 @@ function computerMove() {
                         .filter((x) => x.suit == trump.suit)
                             .sort((a,b) => a.value - b.value)[0];
 
-    isPlayerTurn = isPlayerMove = p1.indexOf(lowestTrump) > -1;
-    console.log('isPlayerTurn', isPlayerTurn);
+    isPlayerTurn = isPlayerMove = p1.indexOf(lowestTrump) > -1;    
     
-    computerMove();
-
     draw();
+    computerMove();    
 })();
 // #endregion
