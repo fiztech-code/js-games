@@ -387,6 +387,11 @@ async function computerMove() {
                 
         if (canToss.length) {
             i = p2.indexOf(canToss[0]);
+
+            if (deck.length && !p1.length) {
+                console.log('player one has no cards left');
+                i = -1;
+            }
             
             if (table.length > 0) {
                 let tossCard = canToss[0];
