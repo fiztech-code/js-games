@@ -302,7 +302,7 @@ canvas.addEventListener('mouseup', (event) => {
     }
 
 
-    if (isPlayerTurn && isPointInRectangle(x, y, btnPass)) {        
+    if (isPlayerTurn && isPointInRectangle(x, y, btnPass) && table.length > 0) {        
         discardCards();
         dealCards(p1, p2);
         isPlayerTurn = false;
