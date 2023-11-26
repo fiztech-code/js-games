@@ -18,13 +18,14 @@ class Paddle {
     keyDown(paddle, event) {
         let key = event.keyCode;
 
-        if ([87,83,38,40].indexOf(key) == -1) {
+        //if ([87,83,38,40].indexOf(key) == -1) {
+        if ([38,40].indexOf(key) == -1) {            
             return;
         }
 
-        if (paddle.player == 2 && (key == 87 || key == 83)) { // w,s
-            return;
-        }
+        //if (paddle.player == 2 && (key == 87 || key == 83)) { // w,s
+        //    return;
+        //}
 
         if (paddle.player == 1 && (key == 38 || key == 40)) { // up,down
             return;
@@ -37,13 +38,14 @@ class Paddle {
     keyUp(paddle, event) {
         let key = event.keyCode;
 
-        if ([87,83,38,40].indexOf(key) == -1) {
+        //if ([87,83,38,40].indexOf(key) == -1) {
+        if ([38,40].indexOf(key) == -1) {  
             return;
         }
 
-        if (paddle.player == 2 && (key == 87 || key == 83)) { // w,s
-            return;
-        }
+        //if (paddle.player == 2 && (key == 87 || key == 83)) { // w,s
+        //    return;
+        //}
 
         if (paddle.player == 1 && (key == 38 || key == 40)) { // up,down
             return;
@@ -52,7 +54,20 @@ class Paddle {
         paddle.direction = 0;
     }
 
-    draw() {
+    draw(ball) {
+        if (this.player == 1 && ball) {
+            if (ball.x < this.ctx.canvas.width / 2 && ball.getDirection()) {
+                if (this.y < ball.y) {
+                    this.direction = 5;
+                } else if (this.y + this.height > ball.y) {
+                    this.direction = -5;
+                } else {
+                    this.direction = 0;
+                }                
+            } else {
+                this.direction = 0;
+            }
+        }
         this.y += this.direction;
         if (this.y < 0) {
             this.y = 0;

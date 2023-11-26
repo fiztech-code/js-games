@@ -25,7 +25,7 @@ function draw() {
     ctx.stroke();  
     
     
-    p1.draw();
+    p1.draw(ball);
     p2.draw();    
     ball.draw();
     requestAnimationFrame(draw);
@@ -68,8 +68,8 @@ let isPlaying = true;
 function speedUp() {
     let reduceBy = Math.floor(speed*0.2);
     speed-=reduceBy;
-    if (speed < 6) {
-        speed = 6;
+    if (speed < 4) {
+        speed = 4;
     }    
     clearInterval(clock);
     clock = setInterval(game, speed);

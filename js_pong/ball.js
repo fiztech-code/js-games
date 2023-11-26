@@ -2,7 +2,7 @@ class Ball {
     constructor(ctx) {
         this.ctx = ctx;
         
-        this.size = 40
+        this.size = 20
         this.radius = this.size / 2;
         
         this.x = ctx.canvas.width / 2 - this.radius;
@@ -11,6 +11,10 @@ class Ball {
 
     #dx = 3;
     #dy = 1;
+
+    getDirection() {
+        return this.#dx < 0;
+    }
 
     draw() {
         //this.ctx.fillStyle = 'blue';
