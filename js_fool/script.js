@@ -595,6 +595,4 @@ async function computerMove() {
 })();
 // #endregion
 
-showPcCards.addEventListener('change', () => {
-    p2.forEach((x) => x.showFront = showPcCards.checked );
-});
+showPcCards.addEventListener('change', () => draw());
