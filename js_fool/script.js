@@ -19,6 +19,8 @@ let heatMap =
     17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17
     17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17	17`;
 
+
+// test commit 
 heatMap.split('\n').forEach((row, i) => {
     let rowArr = row.split('\t');
     rowArr.forEach((cell, j) => {
@@ -26,10 +28,9 @@ heatMap.split('\n').forEach((row, i) => {
     });
 });
 
-
-
-
-
+const cardWidth = 80;
+const cardHeight = 120;
+const padding = 4;
 
 let deck = [];
 let discard = [];
@@ -38,12 +39,12 @@ let p1 = [];
 let p2 = [];
 let trump;
 
+
 let isPlayerTurn = false;
 let isPlayerMove = false;
 let winner;
 
 let showPcCards = document.querySelector('#showComputerCards');
-
 
 let suits = ['Spades', 'Hearts', 'Diamonds', 'Clubs'];
 // #region - get card graphics from unicode chars
@@ -57,9 +58,19 @@ let suits = ['Spades', 'Hearts', 'Diamonds', 'Clubs'];
 let entity = 0xDCA1;
 for (let i = 0; i < 36; i++) { 
     let card = {
+        id: i,
         img: entity,
         suit: Math.floor(i / 9),
-        value: (i % 9) + 5
+        value: (i % 9) + 5,
+        showFront: false,
+        rotate: 0,
+        x: 0,
+        y: 0,
+        width: cardWidth,
+        height: cardHeight,
+        frotate: 0,
+        fx: 0,
+        fy: 0
     };
     
     if ((entity & 0xF) == 0x1) {
@@ -75,17 +86,10 @@ for (let i = 0; i < 36; i++) {
 
     deck.push(card);
 }
+
+let allCards = [...deck];
 // #endregion
 
-let myCard =  {
-    img: 0xDCA2,
-    suit: 0,
-    value: 2,
-    fx: 2,
-    fy: 291,
-    x: 500,
-    y: 250
-};
 
 // #region - drawing
 const canvas = document.querySelector('#canvas');
@@ -100,23 +104,104 @@ const btnTake = {
     y: 20,
     width: 100,
     height: 32,
-    text: 'Take'
+    text: 'Take',
+    hover: false
 };
 const btnPass = {
     x: 260,
     y: 20,
     width: 100,
     height: 32,
-    text: 'Pass'
+    text: 'Pass',
+    hover: false
 };
+
+const hideBox = {
+    x: ctx.canvas.width*.33,
+    y: 0,
+    width: ctx.canvas.width*.33,
+    height: ctx.canvas.height*.3
+   
+};
+
 
 const bg = 'white';
 
+let animateSequence = [];
+
+function addAnimateSequence(card) {
+    animateSequence.push(card);
+}
+
+
+let animationCard;
+
+function placeCards() {
+    // place p1 cards
+    let step = Math.min((cardHeight/3), ctx.canvas.height / p1.length);
+    let totalHeight = Math.min(ctx.canvas.height, step * p1.length + (cardHeight-step));
+    let offset = (ctx.canvas.height/2) - (totalHeight/2);
+    for (let i = 0; i < p1.length; i++) { 
+        p1[i].showFront = true;               
+        placeCard(padding, offset + (step*i), p1[i]);
+    }
+
+    // place p2 cards
+    step = Math.min((cardHeight/3), ctx.canvas.height / p2.length);
+    totalHeight = Math.min(ctx.canvas.height, step * p2.length + (cardHeight - step));
+    offset = (ctx.canvas.height/2) - (totalHeight/2);    
+    for (let i = 0; i < p2.length; i++) {    
+        p2[i].showFront = showPcCards.checked;
+        placeCard(ctx.canvas.width - (cardWidth + padding), (offset + (step*i)), p2[i]);
+    }
+
+    // // place deck
+    // for (let i = 0; i < deck.length; i++) {   
+    //     deck.showFront = false;
+    //     placeCard((ctx.canvas.width/2) + (cardHeight/2) - ((deck.length-1)/2) + (i/2), (i/2) + padding, deck[i], 90, true);                   
+    // }
+
+    // place trump
+    if (trump && deck.length) {
+        trump.showFront = true;
+        placeCard((ctx.canvas.width/2) - (cardWidth/2), ((deck.length-1)/2) + padding, trump, 0);    
+    }    
+
+    // place discard
+    for (let i = 0; i < discard.length; i++) {           
+        discard[i].showFront = false;
+        placeCard((ctx.canvas.width*0.75) + (cardHeight/2) - ((deck.length-1)/2) + (i/2), (i/2) + padding, discard[i], 90);        
+    }
+
+    // place table
+    step = 100;
+    let len = table.length;
+    let rowLength = Math.floor((len-1) / 14);
+    for (let i = 0; i < len; i+=2) {  
+        let col = (i % 14 / 2); 
+        let row = Math.floor(i / 14);  
+
+        let colCount = Math.floor(Math.min(14, len - (14*row)) / 2);        
+        colCount += (rowLength == row && len % 2); // if odd card count, on last row add 1
+
+        let rowWidth = step * colCount;
+
+        let xOffset = (ctx.canvas.width/2) - (rowWidth/2) + (step*col) + 10;
+        let yOffset = (ctx.canvas.height/2) + (rowLength == 0 ? -60 : (row == 0 ? -100 : 86));
+
+        table[i].showFront = true;
+        placeCard(xOffset , yOffset, table[i]);
+        if (table[i+1]) {
+            table[i+1].showFront = true;   
+            placeCard(xOffset + 6, yOffset + 34, table[i+1]);
+        }
+    }
+}
+
+
 function draw() {
     ctx.fillStyle = bg;
-    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-
-    
+    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);   
 
     if (isPlayerTurn) {
         drawButton(btnPass);
@@ -133,119 +218,98 @@ function draw() {
     ctx.textAlign = 'center'
     ctx.fillText(message, 0, 0);
     ctx.restore();
+
+    discard.forEach((x,i) => drawCard(x)); // draw discard //i % 4 == 0 && 
+    drawCard(trump); // draw trump 
     
-    // draw p1 cards
-    let step = Math.min(40, ctx.canvas.height / p1.length);
-    let totalHeight = Math.min(ctx.canvas.height, step * p1.length + 80);
-    let offset = 106 + (ctx.canvas.height - totalHeight) / 2;    
-    for (let i = 0; i < p1.length; i++) {        
-        drawCard(0, (offset + (step*i)), p1[i]);
+    ////deck.forEach((x,i) => i < deck.length-1 && ); // draw deck //i % 4 == 0 &&
+    for (let i = deck.length-2; i >= 0; i--) {
+        drawCard(deck[i]);
     }
-
-    // draw p2 cards
-    step = Math.min(40, ctx.canvas.height / p2.length);
-    totalHeight = Math.min(ctx.canvas.height, step * p2.length + 80);
-    offset = 106 + (ctx.canvas.height - totalHeight) / 2;    
-    for (let i = 0; i < p2.length; i++) {  
-        let card = {
-            img: 0xDCA0,
-            suit: 1,
-            value: 0        
-        };      
-        if (showPcCards.checked) {
-            card = p2[i];
-        }
-        drawCard(ctx.canvas.width-84, (offset + (step*i)), card);
-    }
-
-    // draw trump
-    drawCard(ctx.canvas.width/2 - 40, 120, deck[deck.length-1]);
-
-    // draw deck
-    for (let i = 0; i < deck.length/4; i++) {   
-        let card = {
-            img: 0xDCA0,
-            suit: 1,
-            value: 0        
-        };
-
-        drawCard(ctx.canvas.width/2-44+(2*i), 120-(2*i), card, true);
-    }
-
-    // draw discard
-    for (let i = 0; i < discard.length/4; i++) {   
-        let card = {
-            img: 0xDCA0,
-            suit: 1,
-            value: 0        
-        };
-
-        drawCard(ctx.canvas.width/2+220+(2*i), 120-(2*i), card, true);
-    }
-
-    // draw table
-    step = 100;
-    for (let i = 0; i < table.length; i+=2) {  
-        let j = Math.floor(i % 14 / 2);
-
-        let columnCount = i > 0 && (Math.floor(i / 14) > 0) 
-                            ? Math.min(table.length % 14, 14)
-                                : Math.min(table.length, 14);  
-
-        let columnWidth = step * Math.ceil(columnCount / 2);
-
-        let xOffset = (ctx.canvas.width - columnWidth) / 2 + 8;
-        let yOffset = table.length > 14 && Math.floor(i / 14) > 0 
-                        ? 168 // bottom row
-                            : (table.length > 14 ? 0 : 44); // top or middle rows
-        
-        drawCard(xOffset + (step*j), yOffset + (ctx.canvas.height / 2), table[i]);
-        if (table[i+1]) {
-            drawCard(xOffset + (step*j) + (6), yOffset + (ctx.canvas.height / 2) + 34, table[i+1]);
-        }
-    }
-
-    //let aa = (myCard.fx - myCard.x)/2;
-    //let bb = (myCard.fy - myCard.y)/2;
-    //drawCard(aa,bb, myCard);
-    //requestAnimationFrame(draw);
+    p1.forEach((x) => drawCard(x)); // draw p1 cards     
+    p2.forEach((x) => drawCard(x)); // draw p2 cards
+    table.forEach((x) => drawCard(x)); // draw table
+    
+    requestAnimationFrame(draw);
 }
 
-function drawCard(x, y, card, rotate) {
+function placeCard(x, y, card, rotate, finalLocation) {    
+    
+    card.frotate = rotate || 0;
+    card.fx = x;
+    card.fy = y;
+
+    if (finalLocation) {
+        card.rotate = rotate || 0;
+        card.x = x;
+        card.y = y;
+    } 
+}
+
+function drawCard(card) {
     if (!card) return;
 
-    ctx.save();    
-    ctx.translate(x, y);
+    if (animateSequence.indexOf(card) == 0) {
+        let tx = card.fx - card.x;
+        let ty = card.fy - card.y;        
+        let dist = Math.sqrt(tx * tx + ty * ty);
 
-    card.x = x + 2;
-    card.y = y + 15 - 120;
-    card.width = 80;
-    card.height = 120;
-    
-    if (rotate) {
-        ctx.rotate(90 * Math.PI / 180);            
-        ctx.translate(-106, 0);     
+        let tr = card.frotate - card.rotate;
+        let rDist =  Math.sqrt(tr * tr) || 0;
+                
+        let speed = 15;        
 
-        card.x += -106;        
-    }    
-    
-    ctx.fillStyle = 'white';      
-    ctx.fillRect(2, 15, 80, -120);
+        if (dist >= speed) {
+            let velX = (tx / dist) * speed;
+            let velY = (ty / dist) * speed;
+            card.x += velX;
+            card.y += velY;
 
-    ctx.font = '8rem sans-serif';
-    ctx.fillStyle = card.suit % 3 ? 'red' : 'black';
-    if (!card.value) {
-        ctx.fillStyle = '#072774';
+            let step = tx / velX;
+            let velR = (tr / step) || 0;
+
+            card.rotate += velR;
+
+        } else {            
+            card.x = card.fx
+            card.y = card.fy;
+            card.rotate = card.frotate;
+
+            animateSequence.splice(0,1);
+        }
     }
 
-    ctx.fillText(String.fromCharCode(0xD83C, card.img), 0, 0);
+    ctx.save(); 
+    ctx.translate(card.x, card.y);
+    
+    if (card.rotate) {
+        ctx.rotate(card.rotate * Math.PI / 180);        
+    }    
+    
+    ctx.fillStyle = 'white';    
+    ctx.fillRect(0, 0, cardWidth, cardHeight);
+
+    ctx.font = '129px sans-serif';
+    ctx.fillStyle = card.suit % 3 ? 'red' : 'black';
+    if (!card.showFront) {
+        ctx.fillStyle = '#072774';
+    }
+    
+    // make this nicer, later
+    let img = (card.showFront ? card.img : 0xDCA0);
+    if (isPointInRectangle(card.x,card.y, hideBox) && card != trump )  {
+        ctx.fillStyle = '#072774';
+        img = 0xDCA0;
+    }
+
+    ctx.fillText(String.fromCharCode(0xD83C, img), -2, 105);
     ctx.restore();
 }
 
 function drawButton(btn) {
     ctx.beginPath();
-    ctx.rect(btn.x, btn.y, btn.width, btn.height);
-    ctx.fillStyle = 'rgba(225,225,225,0.5)';
+    ctx.rect(btn.x, btn.y, btn.width, btn.height);    
+    ctx.fillStyle = `rgba(225,225,225,${(btn.hover ? '1' : '0.5')})`;
     ctx.fill();
     ctx.lineWidth = 2;
     ctx.strokeStyle = '#000000';
@@ -266,7 +330,25 @@ function isPointInRectangle(x, y, rectangle) {
     return false;
 }
 
+canvas.onmousemove = (event) => { 
+    const rect = canvas.getBoundingClientRect();
+    const x = Math.floor(event.clientX - rect.left);
+    const y = Math.floor(event.clientY - rect.top);
+
+    //mine.x = x;
+    //mine.y = y;
+
+
+    btnPass.hover = isPointInRectangle(x, y, btnPass);
+    btnTake.hover = isPointInRectangle(x, y, btnTake);
+
+    canvas.style.cursor = btnPass.hover || btnTake.hover ? 'pointer' : '';
+    //draw();
+};
+
 canvas.addEventListener('mouseup', (event) => {   
+    if (animateSequence.length) return;
+
     const rect = canvas.getBoundingClientRect();
     const x = Math.floor(event.clientX - rect.left);
     const y = Math.floor(event.clientY - rect.top);
@@ -296,8 +378,8 @@ canvas.addEventListener('mouseup', (event) => {
     if (deck.length && !p2.length) {
         i = -1;
     }
-    if (isPlayerMove && i > -1) {
-        table.push(...p1.splice(i,1));
+    if (isPlayerMove && i > -1) {        
+        playCard(p1, i);
         isPlayerMove = false;
     }
 
@@ -316,8 +398,6 @@ canvas.addEventListener('mouseup', (event) => {
         isPlayerMove = false;
     } 
     
-
-    draw();
     computerMove();    
 });
 // #endregion
@@ -335,22 +415,41 @@ function discardCards() {
     takeCards(discard);
 }
 
+function playCard(player, cardId) {
+    //addAnimateSequence(player[cardId]);
+    table.push(...player.splice(cardId, 1));
+    table.forEach((x) => addAnimateSequence(x));
+    player.forEach((x) => addAnimateSequence(x));
+    placeCards();
+}
+
 function takeCards(player) {
-    while(table.length) {
-        player.push(table[0]);
+    while(table.length) {        
+        player.push(table[0]);        
         table.splice(0,1);
     };
+    player.forEach((x) => addAnimateSequence(x));
+    placeCards();
 }
 
 function dealCards(attacker, deferender) {      
+    if (attacker.length < 6) {
+        attacker.forEach((x) => addAnimateSequence(x));
+    }
+    if (deferender.length < 6) {
+        deferender.forEach((x) => addAnimateSequence(x));
+    }
     while ((attacker.length < 6 || deferender.length < 6) && deck.length) {
         if (attacker.length < 6) {
+            addAnimateSequence(deck[0]);
             attacker.push(...deck.splice(0,1));            
         }
         if (deferender.length < 6) {
+            addAnimateSequence(deck[0]);
             deferender.push(...deck.splice(0,1));            
         }
     }
+    placeCards();
 }
 
 function isCardBigger(attack, defend) {    
@@ -362,12 +461,22 @@ function isCardBigger(attack, defend) {
     return false;
 }
 
-async function computerMove() {
-    await new Promise(r => setTimeout(r, 800));  
+async function computerMove() {    
+    await new Promise((s,f) => {
+        //console.log('waiting for animateSequence');
+        let checker = setInterval(() => {
+            if (!animateSequence.length) {
+                clearInterval(checker);
+                setTimeout(() => {
+                    //console.log('animateSequence finished');
+                    s();
+                }, 800);                
+            }
+        }, 50);        
+    });  
     let i;
 
-    if (checkWinner() || isPlayerMove) {
-        draw();
+    if (checkWinner() || isPlayerMove) {        
         return;
     }
 
@@ -406,8 +515,8 @@ async function computerMove() {
             }
         }
 
-        if (i > -1) {
-            table.push(...p2.splice(i, 1));
+        if (i > -1) {            
+            playCard(p2, i);
             isPlayerMove = true;
         } else {            
             discardCards();
@@ -444,8 +553,8 @@ async function computerMove() {
             }            
         }
 
-        if (i > -1) {        
-            table.push(...p2.splice(i, 1));
+        if (i > -1) {                    
+            playCard(p2, i);
             isPlayerMove = true;
         } else {
             takeCards(p2);
@@ -454,19 +563,23 @@ async function computerMove() {
             isPlayerMove = true;
         }
     }
-
-    draw();
 }
 
 (function() {    
-    deck = deck.sort(() => 0.5 - Math.random()); // shuffle deck
+    deck = deck.sort(() => 0.5 - Math.random()); // shuffle deck    
+    // place deck
+    for (let i = 0; i < deck.length; i++) {           
+        placeCard((ctx.canvas.width/2) + (cardHeight/2) - ((deck.length-1)/2) + (i/2), (i/2) + padding, deck[i], 90, true);                   
+    }
+    
 
     dealCards(p1, p2);
     
     trump = deck[0];
     if (trump) {
         deck.splice(0, 1);
-        deck.push(trump);
+        deck.push(trump); 
+        addAnimateSequence(trump);      
     }
 
     let lowestTrump = p1.concat(p2)
@@ -475,9 +588,13 @@ async function computerMove() {
 
     isPlayerTurn = isPlayerMove = p1.indexOf(lowestTrump) > -1;    
     
+    placeCards();
+
+    computerMove();
     draw();
-    computerMove();    
 })();
 // #endregion
 
-showPcCards.addEventListener('change', () => draw());
+showPcCards.addEventListener('change', () => {
+    p2.forEach((x) => x.showFront = showPcCards.checked );
+});
