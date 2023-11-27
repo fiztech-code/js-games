@@ -57,13 +57,15 @@ class Paddle {
     draw(ball) {
         if (this.player == 1 && ball) {
             if (ball.x < this.ctx.canvas.width / 2 && ball.getDirection()) {
-                if (this.y < ball.y) {
-                    this.direction = 5;
-                } else if (this.y + this.height > ball.y) {
-                    this.direction = -5;
-                } else {
+
+                if (ball.y > this.y + this.height*0.25 && ball.y <= this.y + this.height*0.75) {
                     this.direction = 0;
-                }                
+                } else if (this.y+(this.height/2) < ball.y) {
+                    this.direction = 5;
+                } else if (this.y + (this.height/2) > ball.y) {
+                    this.direction = -5;
+                }         
+
             } else {
                 this.direction = 0;
             }
