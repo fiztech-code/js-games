@@ -593,4 +593,4 @@ async function computerMove() {
 })();
 // #endregion
 
-showPcCards.addEventListener('change', () => draw());
+showPcCards.addEventListener('change', () => placeCards());
