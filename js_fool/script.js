@@ -45,7 +45,7 @@ let winner;
 let showPcCards = document.querySelector('#showComputerCards');
 
 let suits = ['Spades', 'Hearts', 'Diamonds', 'Clubs'];
-// #region - get card graphics from unicode chars..
+// #region - get card graphics from unicode chars
 /*
     0xD83C 0xDCA0 - Playing Card Back
     0xD83C 0xDCA1 - Spades
