@@ -1,6 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+    <title>Roll 'N Draw</title>
     <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">        
         <style>
             @import url('https://fonts.cdnfonts.com/css/roboto');       
             body {
@@ -42,17 +45,17 @@
         </style>  
     </head>
     <body>
-        <nav></nav>
-        <h1 class="title">Fool</h1>        
-        <h4 class="description">Card Game</h4>
+        <!-- <nav></nav>
+        <h1 class="title">Roll 'n Draw</h1>        
+        <h4 class="description">Level-up Dexterity for Kids</h4> -->
         <div class="mb-2">
             <canvas id="canvas"></canvas>
         </div>
-        <div class="bottom-panel">
-            <label><input type="checkbox" id="showComputerCards" />&nbsp;Show Computer Cards</label>
-            <label><input type="checkbox" id="play" />&nbsp;Play</label>
+        <div class="bottom-panel">     
+            <label><input type="range" min="0.001" max="0.5" step="0.0001" id="speed" value="0.001" />&nbsp;Speed</label>
+            <label><input type="checkbox" id="play" checked />&nbsp;Play</label>
         </div>
-        <a class="source-link" href="https://github.com/fiztech-code/js-games/blob/main/js_fool/script.js">Source Code</a>                
+        <!-- <a class="source-link" href="https://github.com/fiztech-code/js-games/blob/main/roll-n-draw/script.js">Source Code</a>                 -->
         <script src="script.js"></script>
     </body>
 </html>

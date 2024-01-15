@@ -37,12 +37,15 @@ let p1 = [];
 let p2 = [];
 let trump;
 
+let gameState = 0; // 0 - start, 1 - middle, 2 - end
+
 
 let isPlayerTurn = false;
 let isPlayerMove = false;
 let winner;
 
 let showPcCards = document.querySelector('#showComputerCards');
+let play = document.querySelector('#play');
 
 let suits = ['Spades', 'Hearts', 'Diamonds', 'Clubs'];
 // #region - get card graphics from unicode chars
@@ -219,16 +222,21 @@ function draw() {
 
     discard.forEach((x,i) => drawCard(x)); // draw discard //i % 4 == 0 && 
     drawCard(trump); // draw trump 
-    
-    ////deck.forEach((x,i) => i < deck.length-1 && ); // draw deck //i % 4 == 0 &&
+        
     for (let i = deck.length-2; i >= 0; i--) {
         drawCard(deck[i]);
     }
     p1.forEach((x) => drawCard(x)); // draw p1 cards     
     p2.forEach((x) => drawCard(x)); // draw p2 cards
     table.forEach((x) => drawCard(x)); // draw table
+   
+    // for (let i = animateSequence.length-1; i >= 0; i--) {
+    //     drawCard(animateSequence[i], true);
+    // }
     
-    requestAnimationFrame(draw);
+    if (play.checked) {
+        requestAnimationFrame(draw);
+    }    
 }
 
 function placeCard(x, y, card, rotate, finalLocation) {    
@@ -244,8 +252,10 @@ function placeCard(x, y, card, rotate, finalLocation) {
     } 
 }
 
-function drawCard(card) {
+function drawCard(card, force) {
     if (!card) return;
+
+    //if (animateSequence.indexOf(card) > -1 && !force) return;
 
     if (animateSequence.indexOf(card) == 0) {
         let tx = card.fx - card.x;
@@ -253,7 +263,7 @@ function drawCard(card) {
         let dist = Math.sqrt(tx * tx + ty * ty);
 
         let tr = card.frotate - card.rotate;
-        let rDist =  Math.sqrt(tr * tr) || 0;
+        //let rDist =  Math.sqrt(tr * tr) || 0;
                 
         let speed = 15;        
 
@@ -594,3 +604,7 @@ async function computerMove() {
 // #endregion
 
 showPcCards.addEventListener('change', () => placeCards());
+
+
+play.addEventListener('change', () => play.checked && draw());
+
