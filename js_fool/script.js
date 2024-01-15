@@ -343,15 +343,10 @@ canvas.onmousemove = (event) => {
     const x = Math.floor(event.clientX - rect.left);
     const y = Math.floor(event.clientY - rect.top);
 
-    //mine.x = x;
-    //mine.y = y;
-
-
     btnPass.hover = isPointInRectangle(x, y, btnPass);
     btnTake.hover = isPointInRectangle(x, y, btnTake);
 
     canvas.style.cursor = btnPass.hover || btnTake.hover ? 'pointer' : '';
-    //draw();
 };
 
 canvas.addEventListener('mouseup', (event) => {   
