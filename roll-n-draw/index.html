@@ -13,7 +13,7 @@
             }
             body {
                 margin: 0;
-                text-align: center;
+                text-align: left;
             }
             nav {
                 height: 4rem;
@@ -52,6 +52,7 @@
             <canvas id="canvas"></canvas>
         </div>
         <div class="bottom-panel">     
+            <input type="button" id="startRotate" value="Start Rotate" onclick="startRotate()" />
             <label><input type="range" min="0.001" max="0.5" step="0.0001" id="speed" value="0.001" />&nbsp;Speed</label>
             <label><input type="checkbox" id="play" checked />&nbsp;Play</label>
         </div>

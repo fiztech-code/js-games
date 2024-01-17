@@ -75,10 +75,18 @@ let speedRange = document.querySelector('#speed');
 //'use strict'
 
 let toRadians = (deg) => deg * Math.PI / 180;
+let toDegrees = (rad) => rad * 180 / Math.PI;
 let map = (val, a1, a2, b1, b2) => b1 + (val - a1) * (b2 - b1) / (a2 - a1);
 
 let rotateZ = 0;
 let rotateSpeed = 0;
+
+let rotateTimeout = 0;
+
+let resetRotateTimeout = false;
+function startRotate() {
+  resetRotateTimeout = true;
+}
 
 class Pizza {
   constructor(id) {
@@ -96,25 +104,115 @@ class Pizza {
     this.progress = 0;
     this.cooldown = 10;
 
+    this.acceleration = 0;
+    this.velocity = 0;
+    this.displacement = 0;
+    this.rotateInterval = 3000; // ms
+    this.positon = 0;
+    
+    this.posX = 0;
+    this.posY = 0;
+    this.distance = 0;
+
+    this.result = [];
   }
   
   update(deltaTime) { 
     let ctx = this.ctx;
-    ctx.clearRect(0, 0, this.width, this.height);
+    ctx.fillStyle = 'black';
+    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    //ctx.clearRect(0, 0, this.width, this.height);
 
     ctx.save()
-    ctx.translate(this.center, this.center)
-    //rotateZ += rotateSpeed;
-    rotateSpeed -= 0.01;
+    ctx.translate(this.center, this.center);
 
-    //if (rotateSpeed <= 0) {
+      
+
+    rotateZ += rotateSpeed;//parseFloat(speedRange.value);
+    this.distance += this.velocity;
+
+    //rotateSpeed -= 0.01;
+    if (resetRotateTimeout) {
+      resetRotateTimeout = false;
+      rotateTimeout = deltaTime;
+    }
+
+    if (deltaTime - rotateTimeout < 3000) {
+      let millis = deltaTime - rotateTimeout;
+      let _millis = (rotateTimeout + 3000) - deltaTime;
+      let t = map(millis,0,3000,0,1); //millis / 1000;
+      //let a = 0.125; 
+      //rotateSpeed = (0*t) + (0.5 * a * (t*t));
+
+      //console.log(t);
+      //console.log(i, 0.5-i);
+      
+      //console.log(rotateSpeed, a);  
+      //rotateTimeout = deltaTime;
+
+      //console.log('3sec', deltaTime, (new Date()).toISOString().split('T')[1]);
+
+
+      // if (millis < (this.rotateInterval / 2)) {
+      //   this.acceleration = 120 * t;
+      // } else {
+      //   this.acceleration = -120 * t + 360;
+      // }
+
+      // this.velocity = this.acceleration * t;
+      // this.displacement = (this.velocity * t) + (0.5 * this.acceleration * (t * t));
+
+      //console.log(this.acceleration, this.velocity, this.displacement, t);
+      
+      //this.displacement %= 360;
+      //console.log(Math.floor(this.displacement), toRadians(this.displacement));
+      
+      let p1 = [0, 0];
+      let p2 = [0.2, 0];
+      let p3 = [0.4, 1];
+      let p4 = [1, 1];
+      let x = (1-t)*3*p1[0] + 3*((1-t)*(1-t)) * t * p2[0] + 3 * (1-t) * (t*t) * p3[0] + (t*t*t) * p4[0];
+      let y = (1-t)*3*p1[1] + 3*((1-t)*(1-t)) * t * p2[1] + 3 * (1-t) * (t*t) * p3[1] + (t*t*t) * p4[1];
+      
+      //this.position = y*(4*360);
+      this.distance = (y-this.posY) / (x-this.posX);
+      this.posX = x;
+      this.posY = y;
+      this.distance = y*(4*360);
+      //console.log(this.distance);
+      this.result.push({
+        x: x,
+        y: y,
+        t: t,
+        d: this.distance
+      });
+
+
+    } else {
+      rotateSpeed = 0;
+      this.acceleration = 0;
+      //this.position = 0;
+      if (this.result.length) {
+        console.table(this.result);
+        this.result = [];
+      }
+
+    }
+
+    if (rotateZ >= (2*Math.PI)) {
+      //console.log('lap');
+      rotateZ = 0;
       //rotateSpeed = (Math.random() * 0.1) + 0.0001;
-    //}
+    }
+
+   
     //console.log(rotateZ);
     for (let i = this.sliceCount - 1; i >= 0; i--) {
 
         //let rad = this.sliceRadians * i + ((deltaTime * speedRange.value) % Math.PI*2);
-        let rad = this.sliceRadians * i + rotateZ;
+        //let rad = this.sliceRadians * i + rotateZ;
+        //let rad = this.sliceRadians * i + toRadians(this.displacement);
+        let rad = this.sliceRadians * i + toRadians(this.distance);
         
 
 
@@ -189,6 +287,47 @@ function cheese(ctx, rad, multi, ii, sliceSize, sliceDegree) {
 let pizza = new Pizza('canvas');
 
 (function update(deltaTime) {
-  //requestAnimationFrame(update);
-  //pizza.update(deltaTime);
+  requestAnimationFrame(update);
+  pizza.update(deltaTime);
 }())
+
+
+canvas.addEventListener('touchstart', (e) => {
+  console.log('touchstart');
+});
+canvas.addEventListener('touchmove', (e) => {
+  console.log('touchmove');
+});
+canvas.addEventListener('touchend', (e) => {
+  console.log('touchend');
+});
+
+
+
+let isMouseDown = false;
+canvas.addEventListener('mousedown', (e) => {
+  isMouseDown = true;  
+  console.log('mousedown');
+});
+
+
+canvas.addEventListener('mousemove', (e) => {
+  if (!isMouseDown) return;
+  //console.log('mousedrag', e.x);
+  
+  
+  let r = toDegrees(Math.atan2(e.y - 185, e.x = 185));
+  console.log(e.x, e.y);
+  //console.log(r);
+
+  //if (isFinite(r)) {
+//    pizza.distance += r;
+//  }
+  
+  mousePrev = e;
+  
+});
+canvas.addEventListener('mouseup', (e) => {
+  isMouseDown = false;
+  console.log('mouseup');
+});
