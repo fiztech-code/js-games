@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+    <title>Wheel of Life</title>
+
+    <head>
+        <meta charset="utf-8">
+        <!-- <meta name="viewport" content="width=device-width, height=device-height, user-scalable=no" /> -->
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <!-- <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" /> -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="style.css" />
+    </head>
+
+    <body>
+        <!-- <input type="button" id="toggleFullscreen" value="Full Screen" onclick="toggleFullscreen()" />
+        <span id="out" style="position: absolute; margin-left: 6rem; background-color: #ffffff;"></span> -->
+        <div id="game">
+            <div class="scenes">
+                <div class="scene scene-0">                                          
+                    <image width="380" height="200" src="img/spin-n-draw.svg" style="cursor: pointer;"></image>                    
+                </div>
+                <div class="scene scene-1" style="display: none">
+                    <div id="spinner">
+                        <!-- <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 10 20 60'
+                            id="clicker">
+                            <path d="M 3 20 Q 10 0 17 20 Q 10 100 3 20" fill="#ddd" />
+                        </svg> -->
+            
+                        <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 100 100'
+                            id="wheel">
+            
+                            <mask id="splineMask">
+                                <rect x="0" y="0" width="100" height="100" fill="white" />
+                                <path d="M48.5 33 Q 50 35 51.5 33 Q 50 18 48.5 33" />
+                                <path transform="rotate(36, 50, 50)" d="M48.5 33 Q 50 35 51.5 33 Q 50 18 48.5 33" />
+                                <path transform="rotate(72, 50, 50)" d="M48.5 33 Q 50 35 51.5 33 Q 50 18 48.5 33" />
+                                <path transform="rotate(108, 50, 50)" d="M48.5 33 Q 50 35 51.5 33 Q 50 18 48.5 33" />
+                                <path transform="rotate(144, 50, 50)" d="M48.5 33 Q 50 35 51.5 33 Q 50 18 48.5 33" />
+                                <path transform="rotate(180, 50, 50)" d="M48.5 33 Q 50 35 51.5 33 Q 50 18 48.5 33" />
+                                <!-- <path transform="rotate(216, 50, 50)" d="M48.5 33 Q 50 35 51.5 33 Q 50 18 48.5 33" />
+                                <path transform="rotate(252, 50, 50)" d="M48.5 33 Q 50 35 51.5 33 Q 50 18 48.5 33" />
+                                <path transform="rotate(288, 50, 50)" d="M48.5 33 Q 50 35 51.5 33 Q 50 18 48.5 33" />
+                                <path transform="rotate(324, 50, 50)" d="M48.5 33 Q 50 35 51.5 33 Q 50 18 48.5 33" /> -->
+                            </mask>
+            
+                            <!-- <polygon points="50,50 71,-17 28,-16" style="fill: #FDD835" /> -->
+                            
+                            <!-- <polygon points="50,50 28,-16 -7,9" style="fill: #FFC107" /> -->
+                            <!--<polygon points="50,50 -7,9 -20,51" style="fill: #FF9800" />
+                            <polygon points="50,50 -20,51 -6,92" style="fill: #FF5722" /> 
+                            <polygon points="50,50 -6,92 29,117" style="fill: #C2185B" />-->
+                            <!-- <polygon points="50,50 29,117 72,116" style="fill: #7B1FA2" />
+                            <polygon points="50,50 72,116 107,91" style="fill: #283593" />
+                            <polygon points="50,50 107,91 120,49" style="fill: #2196F3" />
+                            <polygon points="50,50 120,49 106,8" style="fill: #4CAF50" />
+                            <polygon points="50,50 106,8,71,-17" style="fill: #8BC34A" /> -->
+        
+                            <!-- <polygon transform="rotate(0,50,50)" points="50,50 20,0 84,0" style="fill: #FDD835" />
+                            <polygon transform="rotate(60,50,50)" points="50,50 20,0 84,0" style="fill: #FF5722" />
+                            <polygon transform="rotate(120,50,50)" points="50,50 20,0 84,0" style="fill: #C2185B" />
+                            <polygon transform="rotate(180,50,50)" points="50,50 20,0 84,0" style="fill: #7B1FA2" />
+                            <polygon transform="rotate(240,50,50)" points="50,50 20,0 84,0" style="fill: #2196F3" />
+                            <polygon transform="rotate(300,50,50)" points="50,50 20,0 84,0" style="fill: #4CAF50" />  -->
+        
+                            <!-- <polygon transform="rotate(0,50,50)" points="50,50 100,50 75,93.3" style="fill: #FDD835;" />
+                            <polygon transform="rotate(60,50,50)" points="50,50 100,50 75,93.3" style="fill: #FF5722;" />
+                            <polygon transform="rotate(120,50,50)" points="50,50 100,50 75,93.3" style="fill: #C2185B;" />
+                            <polygon transform="rotate(180,50,50)" points="50,50 100,50 75,93.3" style="fill: #7B1FA2;" />
+                            <polygon transform="rotate(240,50,50)" points="50,50 100,50 75,93.3" style="fill: #2196F3;" />
+                            <polygon transform="rotate(300,50,50)" points="50,50 100,50 75,93.3" style="fill: #4CAF50;" /> -->
+        
+                            
+                            <g transform="rotate(0,50,50)" id="segment1">
+                                <path transform="rotate(-120,50,50)" d="M 50 50 100 50 Q 99.1 78.35 75 93.3" stroke="none" fill="#FDD835"></path>
+                                <!-- <text x="45" y="14">1</text>
+                                <image x="10" y="20" width="50" height="50" href="img/rabbit.svg" /> -->
+                                <image x="38" y="4" width="24" height="24" href="img/rabbit.svg"></image>
+                            </g>    
+                            <g transform="rotate(60,50,50)" id="segment2">
+                                <path transform="rotate(-120,50,50)" d="M 50 50 100 50 Q 99.1 78.35 75 93.3" stroke="none" fill="#FF5722"></path>
+                                <!-- <text x="45" y="14">2</text> -->
+                                <image x="38" y="4" width="24" height="24" href="img/cat.svg"></image>
+                            </g>
+                            <g transform="rotate(120,50,50)" id="segment3">
+                                <path transform="rotate(-120,50,50)" d="M 50 50 100 50 Q 99.1 78.35 75 93.3" stroke="none" fill="#C2185B"></path>
+                                <!-- <text x="45" y="14">3</text> -->
+                                <image x="38" y="4" width="24" height="24" href="img/dog.svg"></image>
+                            </g>
+                            <g transform="rotate(180,50,50)" id="segment4">
+                                <path transform="rotate(-120,50,50)" d="M 50 50 100 50 Q 99.1 78.35 75 93.3" stroke="none" fill="#7B1FA2"></path>  
+                                <!-- <text x="45" y="14">4</text> -->
+                                <image x="38" y="4" width="24" height="24" href="img/owl.svg"></image>
+                            </g>
+                            <g transform="rotate(240,50,50)" id="segment5">
+                                <path transform="rotate(-120,50,50)" d="M 50 50 100 50 Q 99.1 78.35 75 93.3" stroke="none" fill="#2196F3"></path>            
+                                <!-- <text x="45" y="14">5</text> -->
+                                <image x="38" y="4" width="24" height="24" href="img/bear.svg"></image>
+                            </g>
+                            <g transform="rotate(300,50,50)" id="segment6">
+                                <path transform="rotate(-120,50,50)" d="M 50 50 100 50 Q 99.1 78.35 75 93.3" stroke="none" fill="#4CAF50"></path>
+                                <!-- <text x="45" y="14">6</text> -->
+                                <image x="38" y="4" width="24" height="24" href="img/seal.svg"></image>
+                            </g>                   
+                            
+                            
+        
+                            <!-- <path d="M 100 50 Q 99.1 78.35 75 93.3" stroke="black" stoke-width="0.5"></path>  -->  <!-- cap --> 
+            
+                            <!-- <text x="45" y="14">1</text>
+                            <text x="45" y="14" transform="rotate(36, 50, 50)">2</text>
+                            <text x="45" y="14" transform="rotate(72, 50, 50)">3</text>
+                            <text x="45" y="14" transform="rotate(108, 50, 50)">4</text>
+                            <text x="45" y="14" transform="rotate(144, 50, 50)">5</text>
+                            <text x="45" y="14" transform="rotate(180, 50, 50)">6</text> -->
+                            <!-- <text x="45" y="14" transform="rotate(216, 50, 50)">7</text>
+                            <text x="45" y="14" transform="rotate(252, 50, 50)">8</text>
+                            <text x="45" y="14" transform="rotate(288, 50, 50)">9</text>
+                            <text x="40" y="14" transform="rotate(324, 50, 50)">10</text> -->
+        
+                            <!-- <text x="45" y="14">1</text>
+                            <text x="45" y="14" transform="rotate(60, 50, 50)">2</text>
+                            <text x="45" y="14" transform="rotate(120, 50, 50)">3</text>
+                            <text x="45" y="14" transform="rotate(180, 50, 50)">4</text>
+                            <text x="45" y="14" transform="rotate(240, 50, 50)">5</text>
+                            <text x="45" y="14" transform="rotate(300, 50, 50)">6</text> -->
+            
+                            <!-- <circle id="middle" cx="50" cy="50" r="33" mask="url(#splineMask)" /> -->
+                            <circle id="knob" cx="50" cy="50" r="12" />
+                        </svg>
+                        <div id="shaddow" class="shaddow"></div>
+                    </div>
+                </div>
+                <div class="scene scene-2" style="display: none">
+                    <div style="width: 400px; height: 400px; background-color:cadetblue;"> Canvas Scene, follow along drawing! </div>
+                </div>
+            </div>
+
+            <div id="bee">
+                <image width="96" height="96" src="img/bee.svg"></image>
+            </div>
+            <div id="msg" class="shaddow">
+                <div class="msg-body mb-3"></div>
+                <div class="msg-footer"></div>
+            </div>
+            <button id="toggleFullscreen" class="btn" title="Toggle Fullscreen">
+                <i class="fa-solid fa-expand"></i>            
+            </button>
+            <input type="checkbox" id="spinVersion" title="Spin Version 2" checked style="position: absolute;left: 0;bottom: 0;" />
+        </div>
+
+       
+
+        <!-- style="
+    border: 1px solid #ccc;
+    background-color: #afd2dd;
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    border-radius: 50%;
+    height: 3rem;
+    width: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+" > -->
+        <script src="js/cookie.js"></script>
+        <script src="js/message.js"></script>
+        <script src="js/fullscreen.js"></script>
+        <script src="js/wheel.js"></script>
+        <script src="js/script.js"></script>
+        
+    </body>
+</html>

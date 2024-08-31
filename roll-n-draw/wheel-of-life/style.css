@@ -1,0 +1,271 @@
+/* * {
+	box-sizing: border-box;
+} */
+html {
+	height: 100%;
+}
+
+body {        
+    touch-action: none;
+    overflow: hidden;
+    margin: 0px; 
+	font-family: Roboto;
+    color: #444;
+    /* height: 100vh; */
+    /* width: 100vw; */
+	/* position: relative; */
+	/* background-color: #484848; */
+}
+#game {    
+    width: 100vw;
+	height: 100vh;
+    background-image: linear-gradient(#51c6e9, #f2fff8);
+
+	/* height: 100%; */
+	/* position: relative; */	
+	/* display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;	 */
+}
+
+.scenes {
+	height: 100vh;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	/* justify-content: flex-start; */
+	/* transition: .5s cubic-bezier(1, 0, 0, 1) all; */
+}
+
+#toggleFullscreen {
+    position: absolute;    
+	bottom: 1rem;
+    right: 1rem;
+    height: 3rem;
+    width: 3rem;
+    font-size: 1.5rem;
+}
+
+h1 {
+	color: white
+}
+
+#spinner {
+	/* width: 400px;
+	height: 400px; */
+	min-width: 380px;
+	min-height: 380px;
+	align-items: center;
+	position: relative;
+	/* overflow: hidden; */
+}
+
+#clicker {
+	position: absolute;
+	top: 0px;
+	left: calc(50% - 10px);
+	width: 15px;
+	height: 60px;
+	z-index: 2;
+	transform-origin: 50% 20px;
+	pointer-events: none;
+}
+
+#wheel {
+	position: absolute;
+	top: 30px;
+	left: 30px;
+	width: calc(100% - 60px);
+	height: calc(100% - 60px);
+	box-sizing: border-box;
+	border-radius: 100%;
+	cursor: pointer;
+	border: solid white 10px;
+	will-change: transform;
+	z-index: 1;
+}
+
+/* #wheel polygon {
+	transform-origin: center;
+} */
+
+#shaddow {
+	position: absolute;
+	top: 30px;
+	left: 30px;
+	right: 30px;
+	bottom: 30px;
+	border-radius: 100%;
+	/* box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22); */
+}
+.shaddow {
+	box-shadow: 
+		0 14px 28px rgba(0,0,0,0.25), 
+		0 10px 10px rgba(0,0,0,0.22);
+}
+
+#splineMask > path{
+	fill: black;
+}
+
+#wheel > #middle{
+	fill: white;
+}
+
+#wheel > #knob{
+	/* fill: #ddd; */
+	fill: #ffffff;
+}
+
+#wheel > text{
+	fill: white;
+	font-weight: bold;
+	-webkit-touch-callout: none;
+    -webkit-user-select: none;
+     -khtml-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+}
+
+@media screen and ( max-height: 500px ) {
+	h1{
+		display: none;
+	}
+}
+
+#bee {
+	position: absolute;
+	z-index: 1000;
+	top: 18px;
+	right: 10px;
+	transform: translateX(110px);
+
+	animation-duration: 1.5s;
+  	/* animation-name: beeHover; */
+  	animation-iteration-count: infinite;  	
+}
+
+@keyframes beeHover {
+	0% {
+		transform: translateY(0px);
+	}
+	50% {
+		transform: translateY(15px);
+	}	
+	100% {
+		transform: translateY(0px);
+	}	
+}
+
+
+#msg {
+	z-index: 1000;
+	position: absolute;
+    background: #fff35f;
+    top: 1rem;
+    left: 1rem;
+    width: calc(100% - 180px);    
+    border-radius: 2rem;
+    border: 0.5rem solid #ffffff;
+	padding: 1rem 1rem 0.5rem;
+
+	display: none;
+	flex-direction: column;
+    align-items: center;
+}
+
+#msg .msg-body {
+	font-size: 1.25rem;
+	font-weight: 500;
+}
+#msg .msg-footer .btn:not(:last-child) {
+	margin-right: 0.5rem;
+	margin-bottom: 0.5rem;
+}
+
+.me-2 {
+	margin-bottom: 0.5rem;
+}
+.mb-3 {
+	margin-bottom: 1rem;
+}
+
+.d-none {
+	display: none;
+}
+.d-flex {
+	display: flex;
+}
+
+
+
+
+/* CSS */
+.btn {
+  align-items: center;
+  appearance: none;
+  background-color: #3EB2FD;
+  background-image: linear-gradient(1deg, #4F58FD, #149BF3 99%);
+  background-size: calc(100% + 20px) calc(100% + 20px);
+  border-radius: 100px;
+  border-width: 0;
+  box-shadow: none;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: CircularStd,sans-serif;
+  font-size: 1rem;
+  height: auto;
+  justify-content: center;
+  line-height: 1.5;
+  padding: 6px 20px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color .2s,background-position .2s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+.btn:active,
+.btn:focus {
+  outline: none;
+}
+
+.btn:hover {
+  background-position: -20px -20px;
+}
+
+.btn:focus:not(:active) {
+  box-shadow: rgba(40, 170, 255, 0.25) 0 0 0 .125em;
+}
+
+
+/* 
+
+@keyframes sceneOut {
+	0% {
+		transform: translateY(0px);
+	}
+	90% {
+		transform: translateY(15px);
+		opacity: 1;
+	}	
+	100% {
+		transform: translateY(-100vw);
+		opacity: 0;
+	}	
+}
+
+.scene-1 {	
+	animation-duration: 2s;
+  	animation-name: sceneOut; 
+  	animation-iteration-count: infinite;  	
+} */

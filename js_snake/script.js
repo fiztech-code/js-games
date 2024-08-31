@@ -102,6 +102,18 @@ function keyAction(event) {
 }
 
 document.addEventListener('keydown', keyAction);
+document.querySelector('.controls').addEventListener('mousedown', (ev) => {
+    if (ev.target.className == 'up') {
+        keyAction({keyCode: 38});
+    } else if (ev.target.className == 'down') {
+        keyAction({keyCode: 40});
+    } else if (ev.target.className == 'left') {
+        keyAction({keyCode: 37});
+    } else if (ev.target.className == 'right') {
+        keyAction({keyCode: 39});
+    }
+    //console.log(ev.target.className)
+});
 
 let clock = setInterval(game, 200);
 let isRunning = true;

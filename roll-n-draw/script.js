@@ -86,7 +86,10 @@ let rotateTimeout = 0;
 let resetRotateTimeout = false;
 function startRotate() {
   resetRotateTimeout = true;
+  requestRotate = true;
 }
+
+let requestRotate = false;
 
 class Pizza {
   constructor(id) {
@@ -118,6 +121,9 @@ class Pizza {
   }
   
   update(deltaTime) { 
+    if (!playButton.checked) {
+      return;
+    }
     let ctx = this.ctx;
     ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -129,7 +135,7 @@ class Pizza {
       
 
     rotateZ += rotateSpeed;//parseFloat(speedRange.value);
-    this.distance += this.velocity;
+    //this.distance += this.velocity;
 
     //rotateSpeed -= 0.01;
     if (resetRotateTimeout) {
@@ -137,9 +143,10 @@ class Pizza {
       rotateTimeout = deltaTime;
     }
 
-    if (deltaTime - rotateTimeout < 3000) {
+    if (this.velocity != 0) {
+    //if (deltaTime - rotateTimeout < 3000 && requestRotate) {
       let millis = deltaTime - rotateTimeout;
-      let _millis = (rotateTimeout + 3000) - deltaTime;
+      //let _millis = (rotateTimeout + 3000) - deltaTime;
       let t = map(millis,0,3000,0,1); //millis / 1000;
       //let a = 0.125; 
       //rotateSpeed = (0*t) + (0.5 * a * (t*t));
@@ -152,6 +159,31 @@ class Pizza {
 
       //console.log('3sec', deltaTime, (new Date()).toISOString().split('T')[1]);
 
+      let speed = this.velocity;
+      let maxSpeed = 30;
+      if (speed >= maxSpeed) {
+          speed = maxSpeed;
+      } else if (speed <= -maxSpeed) {
+          speed = -maxSpeed;
+      }
+
+      if (speed >= 0.1) {
+        speed -= 0.1;          
+      } else if (speed <= -0.1) {
+        speed += 0.1;
+      } else {
+        speed = 0;
+      }
+
+      this.velocity = speed;
+      this.distance += speed;
+      console.log(this.velocity, this.distance);
+
+
+
+
+
+
 
       // if (millis < (this.rotateInterval / 2)) {
       //   this.acceleration = 120 * t;
@@ -159,51 +191,62 @@ class Pizza {
       //   this.acceleration = -120 * t + 360;
       // }
 
-      // this.velocity = this.acceleration * t;
-      // this.displacement = (this.velocity * t) + (0.5 * this.acceleration * (t * t));
+      // this.acceleration = 200;
+
+      // console.log('this.velocity',this.velocity);
+      //  //this.velocity = this.acceleration * t;
+      //  if (this.velocity > 0) {
+      //   this.velocity -= 10; 
+      //  } else if  (this.velocity < 0) {
+      //   this.velocity += 10; 
+      //  }
+
+      //  this.displacement = (this.velocity * t) + (0.5 * this.acceleration * (t * t));
+      //  this.distance = this.displacement;
 
       //console.log(this.acceleration, this.velocity, this.displacement, t);
       
       //this.displacement %= 360;
       //console.log(Math.floor(this.displacement), toRadians(this.displacement));
       
-      let p1 = [0, 0];
-      let p2 = [0.2, 0];
-      let p3 = [0.4, 1];
-      let p4 = [1, 1];
-      let x = (1-t)*3*p1[0] + 3*((1-t)*(1-t)) * t * p2[0] + 3 * (1-t) * (t*t) * p3[0] + (t*t*t) * p4[0];
-      let y = (1-t)*3*p1[1] + 3*((1-t)*(1-t)) * t * p2[1] + 3 * (1-t) * (t*t) * p3[1] + (t*t*t) * p4[1];
+      // let p1 = [0, 0];
+      // let p2 = [0.2, 0];
+      // let p3 = [0.4, 1];
+      // let p4 = [1, 1];
+      // //let x = (1-t)*3*p1[0] + 3*((1-t)*(1-t)) * t * p2[0] + 3 * (1-t) * (t*t) * p3[0] + (t*t*t) * p4[0];
+      // let y = (1-t)*3*p1[1] + 3*((1-t)*(1-t)) * t * p2[1] + 3 * (1-t) * (t*t) * p3[1] + (t*t*t) * p4[1]; // bezier curve formula **magic
       
-      //this.position = y*(4*360);
-      this.distance = (y-this.posY) / (x-this.posX);
-      this.posX = x;
-      this.posY = y;
-      this.distance = y*(4*360);
-      //console.log(this.distance);
-      this.result.push({
-        x: x,
-        y: y,
-        t: t,
-        d: this.distance
-      });
+      // //this.position = y*(4*360);
+      // //this.distance = (y-this.posY) / (x-this.posX);
+      // //this.posX = x;
+      // //this.posY = y;
+      // this.distance = y*(4*360);
+      // //console.log(this.distance);
+      // // this.result.push({
+      // //   x: x,
+      // //   y: y,
+      // //   t: t,
+      // //   d: this.distance
+      // // });
 
 
     } else {
-      rotateSpeed = 0;
-      this.acceleration = 0;
+      
+      //rotateSpeed = 0;
+      //this.acceleration = 0;
       //this.position = 0;
-      if (this.result.length) {
-        console.table(this.result);
-        this.result = [];
-      }
+      // if (this.result.length) {
+      //   console.table(this.result);
+      //   this.result = [];
+      // }
 
     }
 
-    if (rotateZ >= (2*Math.PI)) {
-      //console.log('lap');
-      rotateZ = 0;
-      //rotateSpeed = (Math.random() * 0.1) + 0.0001;
-    }
+    // if (rotateZ >= (2*Math.PI)) {
+    //   //console.log('lap');
+    //   rotateZ = 0;
+    //   //rotateSpeed = (Math.random() * 0.1) + 0.0001;
+    // }
 
    
     //console.log(rotateZ);
@@ -294,40 +337,80 @@ let pizza = new Pizza('canvas');
 
 canvas.addEventListener('touchstart', (e) => {
   console.log('touchstart');
+  e.x = e.targetTouches[0].clientX;
+  e.y = e.targetTouches[0].clientY;
+
+  degreeOffset = getMouseDegrees(e);
+  wheelDistance = pizza.distance;
 });
 canvas.addEventListener('touchmove', (e) => {
   console.log('touchmove');
+  e.x = e.targetTouches[0].clientX;
+  e.y = e.targetTouches[0].clientY;
+
+  let degrees = getMouseDegrees(e) - degreeOffset;
+  wheelSpeed = (pizza.distance - (wheelDistance + degrees)) / ((new Date() - prevTime) / 1000);
+  prevTime = new Date();
+
+  //console.log(Math.round(wheelSpeed));
+  pizza.distance = wheelDistance + degrees;
 });
 canvas.addEventListener('touchend', (e) => {
   console.log('touchend');
 });
 
 
+function getMouseDegrees(event) {
+  let wheelCenterX = canvas.offsetLeft + (canvas.width / 2);
+  let wheelCenterY = canvas.offsetTop + (canvas.height / 2);
+
+  let r = Math.atan2(event.y - wheelCenterY, event.x - wheelCenterX);
+  if (r < 0) {
+    r = (2 * Math.PI) - (r * -1);
+  }
+
+  return toDegrees(r);
+}
 
 let isMouseDown = false;
+let degreeOffset = 0;
+let wheelDistance = 0;
+
+let wheelSpeed = 0;
+let prevTime = 0;
+
 canvas.addEventListener('mousedown', (e) => {
   isMouseDown = true;  
-  console.log('mousedown');
+  
+  degreeOffset = getMouseDegrees(e);
+  wheelDistance = pizza.distance;
 });
-
 
 canvas.addEventListener('mousemove', (e) => {
-  if (!isMouseDown) return;
-  //console.log('mousedrag', e.x);
-  
-  
-  let r = toDegrees(Math.atan2(e.y - 185, e.x = 185));
-  console.log(e.x, e.y);
-  //console.log(r);
+  if (!isMouseDown) return;  
+    
+  let degrees = getMouseDegrees(e) - degreeOffset;
+  wheelSpeed = ((pizza.distance % 360) - degrees);// / ((new Date() - prevTime) / 1000);
+  prevTime = new Date();
 
-  //if (isFinite(r)) {
-//    pizza.distance += r;
-//  }
-  
-  mousePrev = e;
-  
+  //console.log(Math.round(wheelSpeed));
+  pizza.distance = wheelDistance + degrees;
 });
-canvas.addEventListener('mouseup', (e) => {
-  isMouseDown = false;
-  console.log('mouseup');
+
+
+canvas.addEventListener('mouseup', (e) => {  
+  isMouseDown = false;  
+  //console.log(Math.round(wheelSpeed))
+  //if (Math.abs(wheelSpeed) > 400) {
+    //wheelSpeed = wheelSpeed > 0 ? Math.min(wheelSpeed, 1800) : Math.max(wheelSpeed, -1800);
+    //console.log('wheelSpeed', wheelSpeed);
+    pizza.velocity = wheelSpeed;
+    //wheelSpeed = 0;    
+    //startRotate();
+  //}
+});
+
+canvas.addEventListener('mouseleave', (e) => {
+  isMouseDown = false;  
+  //console.log(Math.round(wheelSpeed))
 });

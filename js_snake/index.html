@@ -1,5 +1,9 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+    <title>Snake</title>
     <head> 
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <style>
             @import url('https://fonts.cdnfonts.com/css/roboto');
         </style>
@@ -35,6 +39,47 @@
             .source-link:hover { 
                 color: #ffffff;                
             }
+            .canvas-wrap {
+                position: relative;
+                width: 600px;
+                height: 600px;
+                margin: 0 auto;
+                overflow: hidden;
+            }
+            .controls {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                rotate: 45deg;                
+            }
+            .controls .up, .controls .left, .controls .right, .controls .down {
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                opacity: 0.4;
+            }
+            .controls .up {
+                background: red;                
+                top: -50%;
+                left: -50%;
+            }
+            .controls .left {
+                background: green;               
+                top: 50%;
+                left: -50%;               
+            }
+            .controls .right {
+                background: blue;              
+                top: -50%;
+                left: 50%;               
+            }
+            .controls .down {
+                background: cyan;               
+                top: 50%;
+                left: 50%;                
+            }
         </style>
     </head>
     <body>
@@ -42,8 +87,14 @@
         <h1 class="title">Snake</h1>        
         <h4 class="description">Use arrow keys to control snake</h4>
 
-        <div class="mb-2">
+        <div class="mb-2 canvas-wrap">
             <canvas id="canvas"></canvas>
+            <div class="controls">
+                <div class="up"></div>
+                <div class="left"></div>
+                <div class="right"></div>
+                <div class="down"></div>
+            </div>
         </div>    
         <a class="source-link" href="https://github.com/fiztech-code/js-games/blob/main/js_snake/script.js">Source Code</a>                
         <script src="script.js"></script>
