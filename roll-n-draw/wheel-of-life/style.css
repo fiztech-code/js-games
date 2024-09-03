@@ -376,9 +376,9 @@ h1 {
 }
 @keyframes floatLeft {
 	0% {
-		transform: translateX(115vw) scale(3.5);
+		transform: translateX(115vw) scale(3);
 	}
 	100% {
-		transform: translateX(-8rem) scale(3.5);
+		transform: translateX(-8rem) scale(3);
 	}
 }

@@ -181,9 +181,9 @@ class Wheel {
         ]);
       } else if (this.previousDistances.length == 0) {
         for (let callback of this.restCallbacks) {
-          let segmentIndex = (360 - Math.round(Math.abs(this.oldAngle)) % 360) / 60 + 1
+          let segmentIndex = Math.round(Math.abs(this.oldAngle)) % 360 / 60 + 1          
           segmentIndex = segmentIndex == 7 ? 1 : segmentIndex
-          const item = this.wheelElm.querySelector(`#segment${segmentIndex}`)
+          const item = this.wheelElm.querySelector(`#segment${segmentIndex}`)          
           callback(item)
         }
       }
