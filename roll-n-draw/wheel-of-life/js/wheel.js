@@ -6,11 +6,11 @@ class Wheel {
       this.onGrab(e.clientX, e.clientY);
     });
     window.addEventListener('mousemove', (e) => {
-      if (e.which == 1)
+      if (e.which == 1) {
         this.onMove(e.clientX, e.clientY);
-      else if (!this.isDragging)
+      } else if (!this.isDragging) {
         this.onRelease()
-
+      }
     });
     window.addEventListener('mouseup', (e) => {
       this.onRelease.bind(this)();
@@ -42,11 +42,12 @@ class Wheel {
     this.distance = 0
     this.speed = 0
     this.spinClockwise = true;
-    this.startTime = 0;
-    this.totalTime = 0;
+    this.startTime = 0
+    this.totalTime = 0
     this.previousDistances = []
 
-    this.positionCallbacks = [];
+    this.restCallbacks = []
+    this.positionCallbacks = []
   }
 
   calculatePositions() {
@@ -68,6 +69,11 @@ class Wheel {
   onPositionChange(callback) {
     this.positionCallbacks.push(callback);
   }
+
+  onRest(callback) {
+    this.restCallbacks.push(callback);
+  }
+
 
   onGrab(x, y) {
     if (!this.isSpinning) {
@@ -135,7 +141,7 @@ class Wheel {
       this.speed = speed
       this.totalTime = time
 
-      if (this.distance < 20) {
+      if (this.distance < 9) {
         this.previousDistances.push(this.distance)
       } else {
         this.previousDistances.length = 0
@@ -170,6 +176,15 @@ class Wheel {
       window.requestAnimationFrame(this.giveMoment.bind(this));
     } else {
       this.isSpinning = false;
+      if (this.previousDistances.length == 0) {
+        for (let callback of this.restCallbacks) {
+          let segmentIndex = (360 - Math.round(this.oldAngle) % 360) / 60 + 1
+          segmentIndex = segmentIndex == 7 ? 1 : segmentIndex
+          const item = this.wheelElm.querySelector(`#segment${segmentIndex}`)
+          callback(item)
+        }
+      }
+
     }
 
     this.render(this.oldAngle);

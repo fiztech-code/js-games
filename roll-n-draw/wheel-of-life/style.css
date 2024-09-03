@@ -269,3 +269,55 @@ h1 {
   	animation-name: sceneOut; 
   	animation-iteration-count: infinite;  	
 } */
+
+
+/* sun */
+#sun {	
+	display: none;
+	z-index: 1;
+	position: absolute;
+	overflow: hidden;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+	background-color:rgb(255,234,116);	
+}
+
+#sun .rays {                
+	background-color:rgb(253,167,64);
+	-webkit-mask: repeating-conic-gradient(#000 0% 4%, transparent 0% 8.33%);
+	mask: repeating-conic-gradient(#000 0% 4%, transparent 0% 8.33%);
+	width: 200vh;
+	height: 200vh;
+	position: absolute;
+	top: -9999px;
+	bottom: -9999px;
+	left: -9999px;
+	right: -9999px;
+	margin: auto;
+	animation: 20s infinite linear spin;
+}
+
+@keyframes spin {
+	0% {
+		transform: rotate(0deg);                    
+	}               
+	100% {
+		transform: rotate(360deg);                             
+	}
+}
+#sun .core {
+	width: 20rem;
+	height: 20rem;
+	border-radius: 50%;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translateX(-10rem) translateY(-10rem);
+	/* background: radial-gradient(closest-side, #ffea74 85%, transparent 100%); */
+	background-color: #ffea74;
+	display: flex;
+    align-items: center;
+    justify-content: center;
+}

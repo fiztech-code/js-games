@@ -1,0 +1,20 @@
+$nr: 20;        // number of rays
+$p: 100%/$nr;   // percent of circle allocated to a ray and gap after
+$m: repeating-conic-gradient(#000 0% .5*$p, transparent 0% $p);
+
+html1 {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	background: url(https://images.unsplash.com/photo-1495194588369-30f0103ffdb9?ixlib=rb-0.3.5&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ&s=dec0a65d0d3f739edecf2f21e3a8a6fe) 50%/ cover #feffe3;
+	background-blend-mode: luminosity
+}
+
+.rays1 {
+	width: 80vmin; height: 80vmin;
+	border-radius: 50%;
+	background: linear-gradient(#f90, #95a);
+	-webkit-mask: $m;
+    mask: $m
+}

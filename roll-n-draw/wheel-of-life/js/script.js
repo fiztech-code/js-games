@@ -1,5 +1,6 @@
 const message = new Message();
 const wheel = new Wheel();
+const sun = new Sun();
 
 let sceneBusy = false
 
@@ -41,3 +42,19 @@ scene0.addEventListener('click', () => {
     toggleScene(scene0, scene1,  wheel.calculatePositions.bind(wheel));
 });
 
+function playYay() {
+    const audio = new Audio('sound/yay.mp3')
+    audio.play();
+}
+
+
+wheel.onRest((item) => {         
+    const img = item.querySelector('image')
+    sun.show(img.getAttribute('href'))
+    playYay()
+})
+
+
+sun.sun.addEventListener('click', (ev) => {
+    sun.hide()
+})
