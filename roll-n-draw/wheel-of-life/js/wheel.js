@@ -147,13 +147,6 @@ class Wheel {
         this.previousDistances.length = 0
       }
 
-      if (this.previousDistances.length >= 3) {
-        this.previousDistances.length = 0
-        message.show('Spin a little harder! 💪', [
-          { text: 'Ok', callback: () => {  message.hide(); } },                
-        ]);
-      }
-
       window.requestAnimationFrame(this.giveMoment.bind(this))
     }
   }
@@ -176,9 +169,19 @@ class Wheel {
       window.requestAnimationFrame(this.giveMoment.bind(this));
     } else {
       this.isSpinning = false;
-      if (this.previousDistances.length == 0) {
+
+      if (this.previousDistances.length >= 3) {        
+        const that = this
+        message.show('Spin a little harder! 💪', [
+          { text: 'Ok', callback: () => { 
+              that.previousDistances.length = 0
+              message.hide()
+            } 
+          },                
+        ]);
+      } else if (this.previousDistances.length == 0) {
         for (let callback of this.restCallbacks) {
-          let segmentIndex = (360 - Math.round(this.oldAngle) % 360) / 60 + 1
+          let segmentIndex = (360 - Math.round(Math.abs(this.oldAngle)) % 360) / 60 + 1
           segmentIndex = segmentIndex == 7 ? 1 : segmentIndex
           const item = this.wheelElm.querySelector(`#segment${segmentIndex}`)
           callback(item)

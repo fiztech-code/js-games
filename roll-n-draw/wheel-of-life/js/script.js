@@ -44,6 +44,7 @@ scene0.addEventListener('click', () => {
 
 function playYay() {
     const audio = new Audio('sound/yay.mp3')
+    audio.volume = 0.0125
     audio.play();
 }
 
