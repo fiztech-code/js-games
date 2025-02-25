@@ -117,7 +117,8 @@ sun.sun.addEventListener('click', (ev) => {
     }
 });
 
-document.querySelector('#game').addEventListener('click', (ev) => {
+
+document.querySelector('#game').addEventListener('click', (ev) => {    
     if (message.isVisible && !message.hasButton && !skipClick) {
         setTimeout(() => {
             message.hide();

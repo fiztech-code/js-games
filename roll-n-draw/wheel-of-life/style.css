@@ -343,8 +343,8 @@ h1 {
 	background-image: url(./img/easel.png);
     background-repeat: no-repeat;
     background-size: cover;
-	min-width: 430px;
-    min-height: 540px;
+	min-width: 390px;
+    min-height: 480px;
 	display: flex;
 	justify-content: center;
 }

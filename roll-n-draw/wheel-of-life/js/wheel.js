@@ -85,6 +85,9 @@ class Wheel {
 
   onGrab(x, y) {
     if (!this.isSpinning && !this.lock) {
+      let bodyClickEv = new Event('click');
+      document.querySelector('#game').dispatchEvent(bodyClickEv);
+
       this.isDragging = true;
       this.startAngle = this.calculateAngle(x, y);
     }
