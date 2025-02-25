@@ -31,6 +31,8 @@ class Wheel {
       this.calculatePositions.bind(this)();
     });
 
+    this.lock = false;
+
     this.currentAngle = 0;
     this.oldAngle = 0;
     this.lastAngles = [0, 0, 0];
@@ -48,6 +50,12 @@ class Wheel {
 
     this.restCallbacks = []
     this.positionCallbacks = []
+  }
+
+  populateSegments(images) {
+    wheel.wheelElm.querySelectorAll('[id^=segment]').forEach((segment,i) => {
+      segment.querySelector('image').setAttribute('href', images[i]);
+    });
   }
 
   calculatePositions() {
@@ -76,7 +84,7 @@ class Wheel {
 
 
   onGrab(x, y) {
-    if (!this.isSpinning) {
+    if (!this.isSpinning && !this.lock) {
       this.isDragging = true;
       this.startAngle = this.calculateAngle(x, y);
     }

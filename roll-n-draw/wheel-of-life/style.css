@@ -65,9 +65,9 @@ h1 {
 #clicker {
 	position: absolute;
 	top: 0px;
-	left: calc(50% - 10px);
-	width: 15px;
-	height: 60px;
+	left: calc(50% - 25px);
+	width: 45px;
+	height: 40px;
 	z-index: 2;
 	transform-origin: 50% 20px;
 	pointer-events: none;
@@ -199,6 +199,22 @@ h1 {
 .d-flex {
 	display: flex;
 }
+.flex-column {
+	flex-direction: column;
+}
+
+.justify-content-center {
+	justify-content: center;
+}
+.align-items-center {
+	align-items: center;
+}
+.p3 {
+	padding: 1rem;
+}
+.text-white {
+	color: #ffffff;
+}
 
 
 
@@ -274,7 +290,7 @@ h1 {
 /* sun */
 #sun {	
 	display: none;
-	z-index: 1;
+	z-index: 2;
 	position: absolute;
 	overflow: hidden;
     top: 0;
@@ -322,6 +338,20 @@ h1 {
     justify-content: center;
 }
 
+
+#easel {
+	background-image: url(./img/easel.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+	min-width: 430px;
+    min-height: 540px;
+	display: flex;
+	justify-content: center;
+}
+
+#easel #shape{
+	margin-top: 6.5rem;
+}
 
 
 /* */

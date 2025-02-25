@@ -2,6 +2,8 @@ class Message {
     constructor() {
         this.bee = document.querySelector('#bee');
         this.msg = document.querySelector('#msg');
+        this.hasButton = false;
+        this.isVisible = false;
         
         this.timing =  {
             duration: 300,
@@ -32,6 +34,7 @@ class Message {
         let animate = this.bee.animate(flyout, this.timing);
         animate.onfinish = () => {        
             this.bee.style.transform = 'translate(110px,0)';
+            this.isVisible = false;
         };
     }
 
@@ -44,7 +47,7 @@ class Message {
         this.msg.style.display = 'flex';
         let animate = this.msg.animate(fadein, this.timing);
         animate.onfinish = () => {    
-            
+            this.isVisible = true;
         };
     }
 
@@ -64,14 +67,19 @@ class Message {
     show(text, buttons) {
         this.msg.querySelector('.msg-body').textContent = text;
         this.msg.querySelector('.msg-footer').innerHTML = '';
-        buttons.forEach((btn) => {
-            let el = document.createElement('BUTTON');
-            el.classList.add('btn');
-            el.textContent = btn.text;
-            el.addEventListener('click', btn.callback);
-            this.msg.querySelector('.msg-footer').appendChild(el);
-        });
-        this.beeFlyin();
+        this.hasButton = typeof(buttons) != 'undefined';
+        if (this.hasButton) {
+            buttons.forEach((btn) => {
+                let el = document.createElement('BUTTON');
+                el.classList.add('btn');
+                el.textContent = btn.text;
+                el.addEventListener('click', btn.callback);
+                this.msg.querySelector('.msg-footer').appendChild(el);
+            });
+        }    
+        if (!this.isVisible) {
+            this.beeFlyin();
+        }
     }
 
     hide() {

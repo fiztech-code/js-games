@@ -22,15 +22,18 @@
             <i class="cloud cloud-2"></i>
             <i class="cloud cloud-3"></i>
             <div class="scenes">
-                <div class="scene scene-0">                                          
-                    <image width="380" height="200" src="img/spin-n-draw.svg" style="cursor: pointer;"></image>                    
+                <div class="scene scene-0">       
+                    <div class="d-flex justify-content-center flex-column align-items-center" style="background-color: #596886;">
+                        <image width="380" height="200" src="img/spin-n-draw.svg" style="cursor: pointer;"></image>                    
+                        <div class="text-white">- Click to Begin -</div>      
+                    </div>
                 </div>
                 <div class="scene scene-1" style="display: none">
                     <div id="spinner">
-                        <!-- <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 10 20 60'
-                            id="clicker">
-                            <path d="M 3 20 Q 10 0 17 20 Q 10 100 3 20" fill="#ddd" />
-                        </svg> -->
+                        <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 115 100' id="clicker">
+                            <!-- <path d="M 3 20 Q 10 0 17 20 Q 10 100 3 20" fill="#ddd" /> -->
+                            <image x="0" y="0" width="115" height="100" href="./img/clicker.png"></image>
+                        </svg>
             
                         <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 100 100' id="wheel">
             
@@ -45,36 +48,36 @@
                             </mask>
         
                             
-                            <g transform="rotate(0,50,50)" id="segment1" title="rabbit">
+                            <g transform="rotate(0,50,50)" id="segment1" data-id="0">
                                 <path transform="rotate(-120,50,50)" d="M 50 50 100 50 Q 99.1 78.35 75 93.3" stroke="none" fill="#FDD835"></path>
                                 <!-- <text x="45" y="14">1</text>
                                 <image x="10" y="20" width="50" height="50" href="img/rabbit.svg" /> -->
-                                <image x="38" y="4" width="24" height="24" href="img/rabbit.svg"></image>
+                                <image x="38" y="4" width="24" height="24" href=""></image>
                             </g>    
-                            <g transform="rotate(60,50,50)" id="segment2" title="cat">
+                            <g transform="rotate(60,50,50)" id="segment2" data-id="1">
                                 <path transform="rotate(-120,50,50)" d="M 50 50 100 50 Q 99.1 78.35 75 93.3" stroke="none" fill="#FF5722"></path>
                                 <!-- <text x="45" y="14">2</text> -->
-                                <image x="38" y="4" width="24" height="24" href="img/cat.svg"></image>
+                                <image x="38" y="4" width="24" height="24" href=""></image>
                             </g>
-                            <g transform="rotate(120,50,50)" id="segment3" title="dog">
+                            <g transform="rotate(120,50,50)" id="segment3" data-id="2">
                                 <path transform="rotate(-120,50,50)" d="M 50 50 100 50 Q 99.1 78.35 75 93.3" stroke="none" fill="#C2185B"></path>
                                 <!-- <text x="45" y="14">3</text> -->
-                                <image x="38" y="4" width="24" height="24" href="img/dog.svg"></image>
+                                <image x="38" y="4" width="24" height="24" href=""></image>
                             </g>
-                            <g transform="rotate(180,50,50)" id="segment4" title="owl">
+                            <g transform="rotate(180,50,50)" id="segment4" data-id="3">
                                 <path transform="rotate(-120,50,50)" d="M 50 50 100 50 Q 99.1 78.35 75 93.3" stroke="none" fill="#7B1FA2"></path>  
                                 <!-- <text x="45" y="14">4</text> -->
-                                <image x="38" y="4" width="24" height="24" href="img/owl.svg"></image>
+                                <image x="38" y="4" width="24" height="24" href=""></image>
                             </g>
-                            <g transform="rotate(240,50,50)" id="segment5" title="bear">
+                            <g transform="rotate(240,50,50)" id="segment5" data-id="4">
                                 <path transform="rotate(-120,50,50)" d="M 50 50 100 50 Q 99.1 78.35 75 93.3" stroke="none" fill="#2196F3"></path>            
                                 <!-- <text x="45" y="14">5</text> -->
-                                <image x="38" y="4" width="24" height="24" href="img/bear.svg"></image>
+                                <image x="38" y="4" width="24" height="24" href=""></image>
                             </g>
-                            <g transform="rotate(300,50,50)" id="segment6" title="seal">
+                            <g transform="rotate(300,50,50)" id="segment6" data-id="5">
                                 <path transform="rotate(-120,50,50)" d="M 50 50 100 50 Q 99.1 78.35 75 93.3" stroke="none" fill="#4CAF50"></path>
                                 <!-- <text x="45" y="14">6</text> -->
-                                <image x="38" y="4" width="24" height="24" href="img/seal.svg"></image>
+                                <image x="38" y="4" width="24" height="24" href=""></image>
                             </g>                   
                             
 
@@ -141,7 +144,12 @@
                     </div>
                 </div>
                 <div class="scene scene-2" style="display: none">
-                    <div style="width: 400px; height: 400px; background-color:cadetblue;"> Canvas Scene, follow along drawing! </div>
+                    <div id="easel">
+                        <image id="shape" width="230" height="230" src=""></image>
+                    </div>
+                    <div class="d-flex justify-content-center p3">
+                        <button class="btn" id="nextShape">Done!</button>
+                    </div>
                 </div>
             </div>
             
@@ -186,6 +194,7 @@
         <script src="js/message.js"></script>
         <script src="js/sun.js"></script>
         <script src="js/fullscreen.js"></script>
+        <script src="js/visuals.js"></script>
         <script src="js/wheel.js"></script>
         <script src="js/script.js"></script>
         
