@@ -21,13 +21,14 @@ body {
 	height: 100vh;
     background-image: linear-gradient(#51c6e9, #f2fff8);
 	overflow: hidden;
+	transform: translate(0, 0);
 
 	/* height: 100%; */
 	/* position: relative; */	
-	/* display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: center;	 */
+	/* display: flex; */
+	/* flex-direction: row; */
+	/* justify-content: center; */
+	/* align-items: center; */
 }
 
 .scenes {
