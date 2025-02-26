@@ -20,6 +20,7 @@ body {
     width: 100vw;
 	height: 100vh;
     background-image: linear-gradient(#51c6e9, #f2fff8);
+	overflow: hidden;
 
 	/* height: 100%; */
 	/* position: relative; */	
@@ -37,6 +38,10 @@ body {
 	justify-content: center;
 	/* justify-content: flex-start; */
 	/* transition: .5s cubic-bezier(1, 0, 0, 1) all; */
+}
+
+.scene {
+	z-index: 1;
 }
 
 #toggleFullscreen {
@@ -186,7 +191,7 @@ h1 {
 	margin-bottom: 0.5rem;
 }
 
-.me-2 {
+.mb-2 {
 	margin-bottom: 0.5rem;
 }
 .mb-3 {
@@ -350,7 +355,7 @@ h1 {
 }
 
 #easel #shape{
-	margin-top: 6.5rem;
+	margin-top: 5rem;
 }
 
 
