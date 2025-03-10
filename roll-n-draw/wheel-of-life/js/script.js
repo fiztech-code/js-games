@@ -49,7 +49,11 @@ const scene1 = document.querySelector('.scene-1');
 const scene2 = document.querySelector('.scene-2');
 scene0.addEventListener('click', () => {    
     wheel.populateSegments(visuals.map(x => x.image));
-    toggleScene(scene0, scene1, wheel.calculatePositions.bind(wheel));
+    toggleScene(scene0, scene1, () => {
+        wheel.calculatePositions.bind(wheel);
+        playInGame();
+    });
+    
 });
 scene2.querySelector('button#nextShape').addEventListener('click', () => {
     wheel.lock = false;    
@@ -74,17 +78,23 @@ scene2.querySelector('button#nextShape').addEventListener('click', () => {
 });
 
 function playYay() {
-    const audio = new Audio('sound/yay.mp3')
-    audio.volume = 0.1
+    const audio = new Audio('sound/yay.mp3');
+    audio.volume = 0.1;
     audio.play();
 }
 
 function playPing() {
-    const audio = new Audio('sound/ping.mp3')
-    audio.volume = 0.1
+    const audio = new Audio('sound/ping.mp3');
+    audio.volume = 0.1;
     audio.play();
 }
 
+function playInGame() {    
+    const audio = new Audio('sound/ingame.mp3');        
+    audio.loop = true;
+    audio.volume = 0.3;
+    audio.play();
+}
 
 wheel.onRest((item) => {   
     //playPing();      
