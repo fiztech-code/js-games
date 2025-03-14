@@ -23,14 +23,14 @@
         if (document.fullscreenElement) {        
             isFullscreen = true;
             btn.children[0].classList.replace('fa-expand','fa-compress');
-            
+            body.classList.add('full-screen');
             //body.style.height = `${oldScreenHeight}px`;
             //document.querySelector('#game').style.height = `${oldScreenHeight}px`;
             //body.style.position = 'relative';
         } else {
             isFullscreen = false;
             btn.children[0].classList.replace('fa-compress','fa-expand');
-    
+            body.classList.remove('full-screen');
             //body.style.height = `${oldWindowHeight}px`;
             //document.querySelector('#game').style.height = `${oldWindowHeight}px`;
             //body.style.position = 'relative';        

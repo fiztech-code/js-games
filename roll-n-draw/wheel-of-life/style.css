@@ -47,11 +47,15 @@ body {
 
 #toggleFullscreen {
     position: absolute;    
-	bottom: 1rem;
+	bottom: 2.5rem;
     right: 1rem;
     height: 3rem;
     width: 3rem;
     font-size: 1.5rem;
+}
+
+.full-screen #toggleFullscreen {
+	bottom: 1rem;
 }
 
 h1 {
