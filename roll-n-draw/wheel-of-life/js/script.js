@@ -5,8 +5,12 @@ const sun = new Sun();
 let sceneBusy = false
 
 function toggleScene(sceneOut, sceneIn, callback) {
-    if (sceneBusy) return 
-    sceneBusy = true
+    if (sceneBusy) {
+        return;
+    }
+
+    sceneBusy = true;
+    playWosh();
 
     const framesOut = [
         { transform: 'translateY(0)' },
@@ -26,6 +30,7 @@ function toggleScene(sceneOut, sceneIn, callback) {
 
     const animateOut = sceneOut.animate(framesOut, timing);
     animateOut.onfinish = () => {
+        playSparkle();
         sceneOut.style.display = 'none';
         sceneIn.style.display = 'block';
         const animateIn = sceneIn.animate(framesIn, timing);
@@ -47,7 +52,11 @@ let skipClick = 0;
 const scene0 = document.querySelector('.scene-0');
 const scene1 = document.querySelector('.scene-1');
 const scene2 = document.querySelector('.scene-2');
-scene0.addEventListener('click', () => {    
+
+scene0.addEventListener('mousedown', () => {
+    playClick(); 
+});
+scene0.addEventListener('click', () => {       
     wheel.populateSegments(visuals.map(x => x.image));
     toggleScene(scene0, scene1, () => {
         wheel.calculatePositions();
@@ -55,7 +64,10 @@ scene0.addEventListener('click', () => {
     });
     
 });
-scene2.querySelector('button#nextShape').addEventListener('click', () => {
+scene2.querySelector('button#nextShape').addEventListener('mousedown', () => {
+    playClick(); 
+});
+scene2.querySelector('button#nextShape').addEventListener('click', () => {   
     wheel.lock = false;    
     if (wizard.stage < wizard.visual.shapes.length) {
         wheel.populateSegments(wizard.visual.shapes[wizard.stage].options);
@@ -89,6 +101,36 @@ function playPing() {
     audio.play();
 }
 
+function playClick() {
+    const audio = new Audio('sound/click.mp3');
+    audio.volume = 0.3;
+    audio.play();
+}
+
+function playTicker() {
+    const audio = new Audio('sound/ticker.mp3');
+    audio.volume = 0.3;
+    audio.play();
+}
+
+function playWosh() {
+    const audio = new Audio('sound/wosh.mp3');
+    audio.volume = 0.3;
+    audio.play();
+}
+
+function playSparkle() {
+    const audio = new Audio('sound/sparkle.mp3');
+    audio.volume = 0.3;
+    audio.play();
+}
+
+function playGospel() {
+    const audio = new Audio('sound/gospel.mp3');
+    audio.volume = 0.3;
+    audio.play();
+}
+
 function playInGame() {    
     const audio = new Audio('sound/ingame.mp3');        
     audio.loop = true;
@@ -102,6 +144,7 @@ wheel.onRest((item) => {
     if (wizard.stage == -1) {
         wizard.stage = 0;
         const img = item.querySelector('image');
+        playGospel();
         sun.show(img.getAttribute('href'));   
         wizard.visual = visuals[item.dataset.id];
         message.show(`Lets draw a ${wizard.visual.name}!`);
@@ -116,8 +159,10 @@ wheel.onRest((item) => {
     }
 });
 
-
-sun.sun.addEventListener('click', (ev) => {
+sun.sun.addEventListener('mousedown', () => {
+    playClick(); 
+});
+sun.sun.addEventListener('click', (ev) => {   
     sun.hide();
 
     if (wizard.stage == 0) {                

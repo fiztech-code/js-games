@@ -36,6 +36,7 @@ class Wheel {
     this.currentAngle = 0;
     this.oldAngle = 0;
     this.lastAngles = [0, 0, 0];
+    this.oldSegmentDegree = 0;
     this.isDragging = false;
     this.startX = null;
     this.startY = null;
@@ -174,7 +175,13 @@ class Wheel {
     if (this.totalTime - time >= 0) {
       let distance = (0 + Math.abs(this.speed)) * time + (0.5 * this.acceleration * Math.pow(time, 2));
       let angle = distance * 60;
-      this.oldAngle = this.currentAngle + (this.spinClockwise ? angle : -angle)
+      this.oldAngle = this.currentAngle + (this.spinClockwise ? angle : -angle);
+
+      let segmentDegree = Math.round(angle % 60);      
+      if (segmentDegree < this.oldSegmentDegree) {   
+        playTicker();
+      }
+      this.oldSegmentDegree = segmentDegree;
 
       this.isSpinning = true;
       window.requestAnimationFrame(this.giveMoment.bind(this));
