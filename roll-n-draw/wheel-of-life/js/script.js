@@ -50,7 +50,7 @@ const scene2 = document.querySelector('.scene-2');
 scene0.addEventListener('click', () => {    
     wheel.populateSegments(visuals.map(x => x.image));
     toggleScene(scene0, scene1, () => {
-        wheel.calculatePositions.bind(wheel);
+        wheel.calculatePositions();
         playInGame();
     });
     
